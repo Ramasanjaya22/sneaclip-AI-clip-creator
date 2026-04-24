@@ -291,7 +291,7 @@ VIDEO_WRITE_KWARGS = dict(
     fps=None,
     audio_fps=None,
     logger=None,
-    threads=4,
+    threads=os.cpu_count() or 4,
     preset="fast",
     ffmpeg_params=["-movflags", "+faststart"],
 )

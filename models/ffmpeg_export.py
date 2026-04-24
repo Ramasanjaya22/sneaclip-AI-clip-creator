@@ -1,5 +1,7 @@
+from functools import lru_cache
 import os
 import subprocess
+
 import threading
 
 FFMPEG_EXE = os.environ.get("FFMPEG_BINARY", "ffmpeg")
@@ -185,6 +187,7 @@ def _build_filter_complex(video_path, clips, editor_options):
     return inputs, filters, v_stream, a_stream
 
 
+@lru_cache(maxsize=128)
 def _has_audio_stream(video_path):
     try:
         import subprocess
@@ -209,7 +212,7 @@ def export_video_ffmpeg(video_path, clips, editor_options, output_path):
         "-preset", "fast",
         "-crf", "23",
         "-movflags", "+faststart",
-        "-threads", "4",
+        "-threads", "0",
     ]
     if has_audio:
         args += ["-map", a_stream, "-c:a", "aac", "-b:a", "128k"]
