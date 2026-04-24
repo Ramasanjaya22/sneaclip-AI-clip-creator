@@ -1,0 +1,255 @@
+/**
+ * Sneaclip Design System Tokens
+ * Brand direction: icy lavender surfaces, indigo depth, magenta claw accents.
+ */
+
+:root {
+  /* ============================================
+   * COLOR PALETTE - BRAND
+   * ============================================ */
+  --color-brand-ice: #dfe7ff;
+  --color-brand-mist: #b8c7f5;
+  --color-brand: #7d78ff;
+  --color-brand-rgb: 125, 120, 255;
+  --color-brand-strong: #5a58d6;
+  --color-brand-strong-rgb: 90, 88, 214;
+  --color-brand-ink: #2f315f;
+  --color-brand-claw: #ee4b93;
+  --color-brand-claw-rgb: 238, 75, 147;
+  --color-brand-claw-strong: #ff3f89;
+  --color-brand-gem: #d8ac49;
+
+  /* ============================================
+   * COLOR PALETTE - FOUNDATION
+   * ============================================ */
+  --color-bg: #080a12;
+  --color-bg-rgb: 8, 10, 18;
+  --color-surface: #101423;
+  --color-surface-rgb: 16, 20, 35;
+  --color-card: #171c2d;
+  --color-card-rgb: 23, 28, 45;
+  --color-primary: var(--color-brand);
+  --color-primary-rgb: var(--color-brand-rgb);
+  --color-accent: var(--color-brand-claw);
+  --color-accent-rgb: var(--color-brand-claw-rgb);
+
+  /* ============================================
+   * COLOR PALETTE - EXTENDED
+   * ============================================ */
+  --color-primary-hover: #6e69f0;
+  --color-primary-hover-rgb: 110, 105, 240;
+  --color-accent-hover: #df3f85;
+  --color-accent-hover-rgb: 223, 63, 133;
+  --color-primary-light: #dfe7ff;
+  --color-primary-light-rgb: 223, 231, 255;
+  --color-accent-light: #f7a7c9;
+  --color-accent-light-rgb: 247, 167, 201;
+  --color-info: #67b8ff;
+  --color-info-rgb: 103, 184, 255;
+  --color-info-bg: rgba(103, 184, 255, 0.14);
+
+  /* ============================================
+   * COLOR PALETTE - SEMANTIC
+   * ============================================ */
+  --color-success: #3ecf8e;
+  --color-success-rgb: 62, 207, 142;
+  --color-success-bg: rgba(62, 207, 142, 0.14);
+  --color-warning: #f2b24c;
+  --color-warning-rgb: 242, 178, 76;
+  --color-warning-bg: rgba(242, 178, 76, 0.14);
+  --color-danger: #f06783;
+  --color-danger-rgb: 240, 103, 131;
+  --color-danger-bg: rgba(240, 103, 131, 0.16);
+
+  /* ============================================
+   * COLOR PALETTE - SURFACE ELEVATION
+   * ============================================ */
+  --color-bg-0: #080a12;
+  --color-bg-0-rgb: 8, 10, 18;
+  --color-bg-1: #101423;
+  --color-bg-1-rgb: 16, 20, 35;
+  --color-bg-2: #171c2d;
+  --color-bg-2-rgb: 23, 28, 45;
+  --color-bg-3: #202842;
+  --color-bg-3-rgb: 32, 40, 66;
+  --color-bg-4: #2a3457;
+  --color-bg-4-rgb: 42, 52, 87;
+  --color-bg-hover: #313d66;
+  --color-bg-hover-rgb: 49, 61, 102;
+
+  /* ============================================
+   * COLOR PALETTE - TEXT
+   * ============================================ */
+  --color-text-primary: #eff3ff;
+  --color-text-secondary: #bcc6e3;
+  --color-text-muted: #8792b7;
+  --color-text-soft: #677396;
+  --color-text-inverse: #101423;
+  --color-text-disabled: rgba(188, 198, 227, 0.4);
+
+  /* ============================================
+   * COLOR PALETTE - BORDERS & DIVIDERS
+   * ============================================ */
+  --color-border: #36416a;
+  --color-border-strong: #566595;
+  --color-divider: rgba(135, 146, 183, 0.24);
+  --color-focus: #9a90ff;
+
+  /* ============================================
+   * BRAND EFFECTS
+   * ============================================ */
+  --gradient-brand: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 48%, var(--color-accent) 100%);
+  --gradient-brand-soft: linear-gradient(180deg, rgba(223, 231, 255, 0.12) 0%, rgba(125, 120, 255, 0.08) 100%);
+  --shadow-glow: 0 0 24px rgba(125, 120, 255, 0.28);
+  --shadow-glow-lg: 0 0 44px rgba(238, 75, 147, 0.24);
+  --focus-ring: 0 0 0 3px rgba(154, 144, 255, 0.18);
+
+  /* ============================================
+   * SPACING - 4px Base Grid
+   * ============================================ */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-9: 2.25rem;
+  --space-10: 2.5rem;
+  --space-11: 2.75rem;
+  --space-12: 3rem;
+  --space-13: 3.25rem;
+  --space-14: 3.5rem;
+  --space-15: 3.75rem;
+  --space-16: 4rem;
+
+  /* ============================================
+   * TYPOGRAPHY - FONT FAMILY
+   * ============================================ */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* ============================================
+   * TYPOGRAPHY - FONT SIZES
+   * ============================================ */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* ============================================
+   * TYPOGRAPHY - FLUID SIZES (clamp-based)
+   * Scales between mobile (375px) and desktop (1440px)
+   * ============================================ */
+  --fluid-xs: clamp(0.6875rem, 0.6rem + 0.25vw, 0.75rem);
+  --fluid-sm: clamp(0.8125rem, 0.75rem + 0.25vw, 0.875rem);
+  --fluid-base: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --fluid-lg: clamp(1rem, 0.925rem + 0.375vw, 1.125rem);
+  --fluid-xl: clamp(1.0625rem, 0.975rem + 0.5vw, 1.25rem);
+  --fluid-2xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --fluid-3xl: clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem);
+
+  /* ============================================
+   * TYPOGRAPHY - LINE HEIGHTS
+   * ============================================ */
+  --leading-none: 1;
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* ============================================
+   * TYPOGRAPHY - FONT WEIGHTS
+   * ============================================ */
+  --font-thin: 100;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  /* ============================================
+   * TYPOGRAPHY - LETTER SPACING
+   * ============================================ */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.03em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.12em;
+
+  /* ============================================
+   * SHADOWS
+   * ============================================ */
+  --shadow-sm: 0 8px 18px rgba(5, 8, 18, 0.22);
+  --shadow-md: 0 14px 28px rgba(5, 8, 18, 0.28);
+  --shadow-lg: 0 28px 56px rgba(5, 8, 18, 0.38);
+  --shadow-xl: 0 34px 72px rgba(5, 8, 18, 0.46);
+  --shadow-inner: inset 0 1px 0 rgba(223, 231, 255, 0.04);
+
+  /* ============================================
+   * BORDER RADIUS
+   * ============================================ */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ============================================
+   * TRANSITIONS
+   * ============================================ */
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-spring: 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ============================================
+   * Z-INDEX SCALE
+   * ============================================ */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+  --z-toast: 800;
+
+  /* ============================================
+   * LEGACY COMPATIBILITY ALIASES
+   * ============================================ */
+  --bg: var(--color-bg-0);
+  --bg-1: var(--color-bg-1);
+  --bg-2: var(--color-bg-2);
+  --bg-3: var(--color-bg-3);
+  --bg-hover: var(--color-bg-hover);
+  --border: var(--color-border);
+  --border-focus: var(--color-focus);
+  --accent: var(--color-primary);
+  --accent-light: var(--color-primary-light);
+  --accent-glow: rgba(125, 120, 255, 0.26);
+  --green: var(--color-success);
+  --green-bg: var(--color-success-bg);
+  --yellow: var(--color-warning);
+  --yellow-bg: var(--color-warning-bg);
+  --red: var(--color-danger);
+  --red-bg: var(--color-danger-bg);
+  --text: var(--color-text-primary);
+  --text-2: var(--color-text-secondary);
+  --text-3: var(--color-text-muted);
+  --radius: var(--radius-md);
+  --shadow: var(--shadow-lg);
+  --transition: var(--transition-base);
+}

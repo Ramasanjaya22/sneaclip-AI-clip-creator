@@ -1,0 +1,21 @@
+{
+	"use_gpu": true,
+	"auto_load_model": true,
+	"segment_length": 300,
+	"minimum_clip_length": 5,
+	"maximum_clip_length": 9,
+	"pad_clip_start": 1.0,
+	"pad_clip_end": 1.0,
+	"number_of_clips": 2,
+	"threshold": 0.7,
+	"leniency": 2,
+	"max_file_size_mb": 10240,
+	"max_segment_length": 300,
+	"max_ram_usage_mb": 4096,
+	"use_streaming_audio": true,
+	"upload_chunk_size_mb": 50,
+	"temp_file_ttl_hours": 24,
+	"enable_background_jobs": true,
+	"frame_sample_fps": 0.5,
+	"sliding_window_overlap": 2
+}

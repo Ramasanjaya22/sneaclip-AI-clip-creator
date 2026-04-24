@@ -1,0 +1,54 @@
+==============================================
+AI CLIP CREATOR - RUN PROMPT
+==============================================
+
+INSTRUKSI UNTUK AI/USER:
+Jalankan aplikasi AI Clip Creator dengan langkah-langkah berikut:
+
+1. Buka terminal/command prompt di direktori proyek:
+   cd "C:\Users\ramas\Downloads\v0.3.0-windows\AI-clip-creator"
+
+2. Pastikan virtual environment sudah ada:
+   - Cek folder: venv312\
+   - Jika belum ada, jalankan: installer.bat
+
+3. Jalankan aplikasi:
+   .\run.bat
+   
+   ATAU manually:
+   .\venv312\Scripts\python.exe main.py
+
+4. Buka browser dan akses:
+   http://localhost:5000
+
+5. Untuk menghentikan:
+   Tekan CTRL+C di terminal
+   ATAU: Stop-Process -Name python -Force
+
+==============================================
+KONFIGURASI:
+==============================================
+File: config.json
+
+{
+  "use_gpu": true,
+  "auto_load_model": true,
+  "segment_length": 600,
+  "minimum_clip_length": 5,
+  "maximum_clip_length": 9,
+  "pad_clip_start": 1.0,
+  "pad_clip_end": 1.0,
+  "number_of_clips": 2,
+  "threshold": 0.7,
+  "leniency": 2
+}
+
+==============================================
+DEBUGGING:
+==============================================
+- Log file: app.log
+- Cek log: Get-Content "app.log" -Tail 20
+- Cek proses: Get-Process | Where-Object {$_.ProcessName -like "*python*"}
+
+==============================================
+EOF

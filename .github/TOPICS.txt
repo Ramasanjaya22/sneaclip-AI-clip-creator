@@ -1,0 +1,32 @@
+# Recommended GitHub Topics for AI Clip Creator
+# Add these topics in your GitHub repository settings:
+# https://github.com/yourusername/AI-clip-creator/settings/topics
+
+ai-video-editing
+pytorch
+flask
+moviepy
+video-processing
+content-creation
+open-source
+clip-generator
+vertical-video
+automated-editing
+video-highlight
+python
+machine-learning
+librosa
+ffmpeg
+video-clipper
+shorts-creator
+tiktok-tool
+youtube-shorts
+instagram-reels
+watermark-tool
+audio-mixing
+video-effects
+self-hosted
+mit-license
+gpu-acceleration
+cuda
+directml

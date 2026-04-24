@@ -1,0 +1,131 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+MANIFEST.tx
+
+# Virtual Environments
+venv*/
+venv312/
+venv/
+env/
+ENV/
+.venv/
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build & Distribution
+build/
+dist/
+*.egg-info/
+*.egg
+
+# OS & System
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+app.log
+logs/
+
+# Project-specific (Jangan upload file besar)
+static/uploads/
+static/exports/
+static/previews/
+static/music/
+static/watermarks/
+docs/
+
+# Model files (biasanya besar, jangan di-commit)
+models/*.pt
+models/*.joblib
+models/*.pkl
+models/*.pth
+models/*.h5
+
+# Session & Cache
+.session/
+.sisyphus/
+.serena/
+__pycache__/
+.tmp-home/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
+.cache/
+
+# Miniconda & Dependencies
+miniconda/
+*.manifest
+*.spec
+
+# Test files
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Screenshot placeholders (jangan upload hasil screenshot besar)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+!static/assets/*
+!static/**/*.png
+!static/**/*.jpg
+!static/**/*.jpeg
+!static/**/*.gif
+
+# Node modules (jika ada frontend build)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Export & Large files (10GB limit — jangan commit)
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.flac
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+*.t7
+
+# MoviePy temp
+TEMP/
+tmp/
+/tmp/
