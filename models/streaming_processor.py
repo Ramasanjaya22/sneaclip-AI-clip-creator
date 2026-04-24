@@ -105,7 +105,7 @@ def extract_audio_streaming(video_path, segment_length=300):
     output_base = video_path + "_audio_segment"
     
     cmd = [
-        "ffmpeg", "-i", video_path,
+        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_path,
         "-vn",
         "-acodec", "pcm_s16le",
         "-ar", "22050",
