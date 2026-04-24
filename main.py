@@ -219,6 +219,16 @@ app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 app.jinja_env.auto_reload = False
 
+import os as __os # just in case
+# Security configurations
+is_prod = __os.environ.get('FLASK_ENV') == 'production' or __os.environ.get('NODE_ENV') == 'production'
+app.config.update(
+    SESSION_COOKIE_SECURE=is_prod,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    MAX_CONTENT_LENGTH=10240 * 1024 * 1024 # 10GB max length to match config
+)
+
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
 # responses > 500 bytes. Reduces network transfer ~60-80% for text assets.
@@ -325,6 +335,12 @@ def set_cache_headers(response):
         # HTML pages and API responses — no cache, always revalidate
         response.cache_control.no_cache = True
         response.cache_control.must_revalidate = True
+
+    # Global security headers
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
 
     return response
 
@@ -485,8 +501,12 @@ def save_config():
 def _resolve_static_path(url_path):
     if not url_path:
         return ""
-    rel = url_path.replace("/static/", "").replace("/", os.sep)
-    return os.path.join(static_folder, rel)
+    rel = url_path.replace("/static/", "").lstrip("/")
+    resolved_path = os.path.abspath(os.path.join(static_folder, rel))
+    static_abs = os.path.abspath(static_folder)
+    if os.path.commonpath([static_abs, resolved_path]) != static_abs:
+        raise ValueError("Invalid path traversal detected")
+    return resolved_path
 
 
 def _normalize_editor_options_paths(editor_options):
@@ -676,16 +696,16 @@ def preview_clip():
         return jsonify({"success": False, "error": str(e)}), 500
 
 
+from flask import send_from_directory
+
 @app.route("/static/exports/<path:filename>")
 def serve_export(filename):
     export_dir = os.path.join(static_folder, "exports")
-    file_path = os.path.join(export_dir, filename)
-    if not os.path.exists(file_path):
-        return jsonify({"success": False, "error": "File not found"}), 404
-    return send_file(
-        file_path,
+    # Using send_from_directory safely handles path traversal
+    return send_from_directory(
+        export_dir,
+        filename,
         as_attachment=True,
-        download_name=filename,
         mimetype="video/mp4",
     )
 
@@ -693,10 +713,7 @@ def serve_export(filename):
 @app.route("/static/previews/<path:filename>")
 def serve_preview(filename):
     preview_dir = os.path.join(static_folder, "previews")
-    file_path = os.path.join(preview_dir, filename)
-    if not os.path.exists(file_path):
-        return jsonify({"success": False, "error": "File not found"}), 404
-    return send_file(file_path, mimetype="image/png")
+    return send_from_directory(preview_dir, filename, mimetype="image/png")
 
 
 @app.route("/metrics", methods=["POST"])
