@@ -94,10 +94,10 @@ class Config:
             "max_file_size_mb": 10240,
             "max_segment_length": 300,
             "max_ram_usage_mb": 4096,
-            "use_streaming_audio": true,
+            "use_streaming_audio": True,
             "upload_chunk_size_mb": 50,
             "temp_file_ttl_hours": 24,
-            "enable_background_jobs": true,
+            "enable_background_jobs": True,
             "frame_sample_fps": 0.5,
             "sliding_window_overlap": 2
         }
