@@ -14,36 +14,37 @@ except ImportError:
 
 
 def process_video(video_file, segment_length, output_dir):
+    import subprocess
+    import glob
     os.makedirs(output_dir, exist_ok=True)
 
-    video = VideoFileClip(video_file)
-    audio = video.audio
+    output_base = os.path.join(output_dir, "segment")
 
-    try:
-        duration = audio.duration
-        segment_start = 0
-        segment_end = segment_length
-        segment_name = 0
+    cmd = [
+        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_file,
+        "-vn",
+        "-acodec", "pcm_s16le",
+        "-ar", "22050",
+        "-ac", "1",
+        "-f", "segment",
+        "-segment_time", str(segment_length),
+        "-y", f"{output_base}_%03d.wav"
+    ]
 
-        output_paths = []
-        while segment_start < duration:
-            if segment_end > duration:
-                segment_end = duration
+    subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-            segment = audio.subclipped(segment_start, segment_end)
-            output_path = os.path.join(output_dir, f"segment_{segment_name}.wav")
-            segment.write_audiofile(output_path, fps=None, logger=None, codec="pcm_s16le")
+    files = sorted(glob.glob(f"{output_base}_*.wav"))
 
-            segment_start = segment_end
-            segment_end += segment_length
+    output_paths = []
+    for i, f in enumerate(files):
+        new_name = os.path.join(output_dir, f"segment_{i}.wav")
+        if f != new_name:
+            if os.path.exists(new_name):
+                os.remove(new_name)
+            os.rename(f, new_name)
+        output_paths.append(new_name)
 
-            output_paths.append(output_path)
-            segment_name += 1
-
-        return output_paths
-
-    finally:
-        video.close()
+    return output_paths
 
 
 def make_prediction(model, scaler, video_path, threshold=0.5, device="cpu"):
@@ -190,27 +191,45 @@ def find_clips(scores, sr, minimum_length, maximum_length, number_of_clips, leni
 
 
 def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_clip_end, editor_options=None):
+    import subprocess
     os.makedirs(output_dir, exist_ok=True)
     clip_paths = []
 
     video = VideoFileClip(video_file)
+    duration = video.duration
     clip_number = int(len(os.listdir(output_dir)))
 
     try:
         for start_time, end_time in clip_timestamps:
             start_time = max(0, start_time - pad_clip_start)
-            end_time = min(video.duration, end_time + pad_clip_end)
+            end_time = min(duration, end_time + pad_clip_end)
 
             if end_time - start_time < 0.5:
                 continue
 
-            subclip = video.subclipped(start_time, end_time)
-            if editor_options:
-                subclip = process_clip(subclip, editor_options)
-
             output_path = os.path.join(output_dir, f"{clip_number}.mp4")
-            subclip.write_videofile(output_path, **VIDEO_WRITE_KWARGS)
-            subclip.close()
+
+            if not editor_options:
+                # Fast direct ffmpeg trimming if no complex edits
+                cmd = [
+                    "ffmpeg", "-hide_banner", "-loglevel", "warning", "-y",
+                    "-ss", str(start_time),
+                    "-t", str(end_time - start_time),
+                    "-i", video_file,
+                    "-c:v", "libx264",
+                    "-preset", "veryfast",
+                    "-crf", "23",
+                    "-c:a", "aac",
+                    "-b:a", "128k",
+                    "-movflags", "+faststart",
+                    output_path
+                ]
+                subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            else:
+                subclip = video.subclipped(start_time, end_time)
+                subclip = process_clip(subclip, editor_options)
+                subclip.write_videofile(output_path, **VIDEO_WRITE_KWARGS)
+                subclip.close()
 
             clip_paths.append(output_path)
             clip_number += 1
