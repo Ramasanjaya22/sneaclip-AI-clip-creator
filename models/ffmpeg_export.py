@@ -197,7 +197,7 @@ def _has_audio_stream(video_path):
             [FFMPEG_EXE, "-hide_banner", "-i", video_path],
             capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         )
-        return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
+        return "Audio:" in r.stderr
     except Exception:
         return True
 
