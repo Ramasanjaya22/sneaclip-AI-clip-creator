@@ -14,36 +14,36 @@ except ImportError:
 
 
 def process_video(video_file, segment_length, output_dir):
+    import subprocess
+    import glob
+    import re
     os.makedirs(output_dir, exist_ok=True)
 
-    video = VideoFileClip(video_file)
-    audio = video.audio
+    output_pattern = os.path.join(output_dir, "segment_%03d.wav")
 
-    try:
-        duration = audio.duration
-        segment_start = 0
-        segment_end = segment_length
-        segment_name = 0
+    cmd = [
+        "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+        "-i", video_file,
+        "-vn",
+        "-acodec", "pcm_s16le",
+        "-ar", "22050",
+        "-ac", "1",
+        "-f", "segment",
+        "-segment_time", str(segment_length),
+        "-threads", "0",
+        output_pattern
+    ]
 
-        output_paths = []
-        while segment_start < duration:
-            if segment_end > duration:
-                segment_end = duration
+    subprocess.run(cmd, check=True)
 
-            segment = audio.subclipped(segment_start, segment_end)
-            output_path = os.path.join(output_dir, f"segment_{segment_name}.wav")
-            segment.write_audiofile(output_path, fps=None, logger=None, codec="pcm_s16le")
+    files = glob.glob(os.path.join(output_dir, "segment_*.wav"))
 
-            segment_start = segment_end
-            segment_end += segment_length
+    def natural_sort_key(s):
+        return [int(text) if text.isdigit() else text.lower()
+                for text in re.split(r'(\d+)', s)]
 
-            output_paths.append(output_path)
-            segment_name += 1
-
-        return output_paths
-
-    finally:
-        video.close()
+    files.sort(key=natural_sort_key)
+    return files
 
 
 def make_prediction(model, scaler, video_path, threshold=0.5, device="cpu"):
@@ -190,32 +190,65 @@ def find_clips(scores, sr, minimum_length, maximum_length, number_of_clips, leni
 
 
 def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_clip_end, editor_options=None):
+    import subprocess
     os.makedirs(output_dir, exist_ok=True)
     clip_paths = []
 
-    video = VideoFileClip(video_file)
+    # Get duration using ffprobe
+    try:
+        cmd_probe = [
+            "ffprobe", "-v", "error", "-show_entries",
+            "format=duration", "-of",
+            "default=noprint_wrappers=1:nokey=1", video_file
+        ]
+        duration_str = subprocess.check_output(cmd_probe, universal_newlines=True).strip()
+        video_duration = float(duration_str)
+    except Exception:
+        # Fallback to moviepy duration if ffprobe fails or is not available
+        with VideoFileClip(video_file) as video:
+            video_duration = video.duration
+
     clip_number = int(len(os.listdir(output_dir)))
+
+    # Buka video sekali jika kita perlu fallback ke moviepy secara keseluruhan (editor options aktif)
+    video = None
+    if editor_options:
+        video = VideoFileClip(video_file)
 
     try:
         for start_time, end_time in clip_timestamps:
             start_time = max(0, start_time - pad_clip_start)
-            end_time = min(video.duration, end_time + pad_clip_end)
+            end_time = min(video_duration, end_time + pad_clip_end)
 
             if end_time - start_time < 0.5:
                 continue
 
-            subclip = video.subclipped(start_time, end_time)
-            if editor_options:
-                subclip = process_clip(subclip, editor_options)
-
             output_path = os.path.join(output_dir, f"{clip_number}.mp4")
-            subclip.write_videofile(output_path, **VIDEO_WRITE_KWARGS)
-            subclip.close()
+
+            if editor_options:
+                # Fallback to moviepy if we have complex editor options
+                subclip = video.subclipped(start_time, end_time)
+                subclip = process_clip(subclip, editor_options)
+                subclip.write_videofile(output_path, **VIDEO_WRITE_KWARGS)
+                subclip.close()
+            else:
+                # Use fast ffmpeg for simple trimming
+                cmd = [
+                    "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+                    "-ss", str(start_time),
+                    "-i", video_file,
+                    "-t", str(end_time - start_time),
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "23",
+                    "-c:a", "aac", "-b:a", "128k",
+                    "-threads", "0",
+                    output_path
+                ]
+                subprocess.run(cmd, check=True)
 
             clip_paths.append(output_path)
             clip_number += 1
 
         return clip_paths
-
     finally:
-        video.close()
+        if video:
+            video.close()
