@@ -112,6 +112,7 @@ def extract_audio_streaming(video_path, segment_length=300):
         "-ac", "1",
         "-f", "segment",
         "-segment_time", str(segment_length),
+        "-threads", "0",
         "-y", f"{output_base}_%03d.wav"
     ]
     
