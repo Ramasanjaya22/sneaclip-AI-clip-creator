@@ -82,7 +82,7 @@ def _build_filter_complex(video_path, clips, editor_options):
             bg_target_h = target_h // 4
             filters.append(
                 f"{v_stream}split[fg_full][bg_full];"
-                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
+                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase:flags=fast_bilinear,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}:flags=fast_bilinear[bg];"
                 f"[fg_full]scale={target_w}:{target_h}:force_original_aspect_ratio=decrease[fg];"
                 f"[bg][fg]overlay=(W-w)/2:(H-h)/2:format=auto[vert_v]"
             )
@@ -193,11 +193,26 @@ def _build_filter_complex(video_path, clips, editor_options):
 def _has_audio_stream(video_path):
     try:
         import subprocess
-        r = subprocess.run(
-            [FFMPEG_EXE, "-hide_banner", "-i", video_path],
-            capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
-        )
-        return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
+        dir_name = os.path.dirname(FFMPEG_EXE)
+        base_name = os.path.basename(FFMPEG_EXE)
+        if "ffmpeg" in base_name.lower():
+            new_base = base_name.lower().replace("ffmpeg", "ffprobe")
+            ffprobe_exe = os.path.join(dir_name, new_base) if dir_name else new_base
+        else:
+            ffprobe_exe = "ffprobe"
+        try:
+            r = subprocess.run(
+                [ffprobe_exe, "-v", "error", "-select_streams", "a", "-show_entries", "stream=codec_type", "-of", "default=noprint_wrappers=1:nokey=1", video_path],
+                capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+            )
+            return "audio" in r.stdout.lower()
+        except FileNotFoundError:
+            # Fallback to ffmpeg if ffprobe is not available (e.g. imageio-ffmpeg doesn't bundle it)
+            r = subprocess.run(
+                [FFMPEG_EXE, "-hide_banner", "-i", video_path],
+                capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
+            )
+            return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
     except Exception:
         return True
 
