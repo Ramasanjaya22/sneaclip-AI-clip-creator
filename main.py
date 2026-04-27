@@ -30,6 +30,13 @@ except ImportError:
     torch = None
     TORCH_AVAILABLE = False
 
+ALLOWED_EXTENSIONS_VIDEO = {'mp4', 'mov', 'avi', 'mkv', 'webm'}
+ALLOWED_EXTENSIONS_MUSIC = {'mp3', 'wav', 'm4a', 'ogg', 'flac'}
+ALLOWED_EXTENSIONS_IMAGE = {'png', 'jpg', 'jpeg', 'webp'}
+
+def allowed_file_extension(filename, allowed_set):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_set
+
 log_file_path = os.path.abspath("./app.log")
 logging.basicConfig(
     filename=log_file_path,
@@ -222,6 +229,7 @@ app.jinja_env.auto_reload = False
 import os as __os # just in case
 # Security configurations
 is_prod = __os.environ.get('FLASK_ENV') == 'production' or __os.environ.get('NODE_ENV') == 'production'
+app.secret_key = __os.environ.get("FLASK_SECRET_KEY", __os.urandom(24))
 app.config.update(
     SESSION_COOKIE_SECURE=is_prod,
     SESSION_COOKIE_HTTPONLY=True,
@@ -341,6 +349,9 @@ def set_cache_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.plyr.io https://unpkg.com; img-src 'self' data: blob:; media-src 'self' blob:;"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
 
     return response
 
@@ -378,6 +389,13 @@ def main():
             try:
                 video = request.files["video"]
                 if video:
+                    if not allowed_file_extension(video.filename, ALLOWED_EXTENSIONS_VIDEO):
+                        return render_template(
+                            "index.html",
+                            config=config,
+                            error="Invalid video file format",
+                            folders=get_files(clip_folder)
+                        )
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
@@ -584,7 +602,8 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        error_msg = "Internal Server Error" if is_prod else str(e)
+        return jsonify({"success": False, "error": error_msg}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
@@ -604,6 +623,8 @@ def upload_music():
         file = request.files["music"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_MUSIC):
+            return jsonify({"success": False, "error": "Invalid music file format"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
@@ -611,7 +632,8 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        error_msg = "Internal Server Error" if is_prod else str(e)
+        return jsonify({"success": False, "error": error_msg}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +664,8 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        error_msg = "Internal Server Error" if is_prod else str(e)
+        return jsonify({"success": False, "error": error_msg}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -653,13 +676,16 @@ def upload_watermark():
         file = request.files["watermark"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_IMAGE):
+            return jsonify({"success": False, "error": "Invalid image file format"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        error_msg = "Internal Server Error" if is_prod else str(e)
+        return jsonify({"success": False, "error": error_msg}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +719,8 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        error_msg = "Internal Server Error" if is_prod else str(e)
+        return jsonify({"success": False, "error": error_msg}), 500
 
 
 from flask import send_from_directory
