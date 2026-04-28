@@ -17,7 +17,7 @@ body{
 }
 
 h1,h2,h3,h4,h5,h6{
-  font-weight:var(--font-semibold);
+  font-weight:var(--font-bold);
   color:var(--color-text-primary)
 }
 
@@ -343,7 +343,7 @@ input:focus,select:focus,textarea:focus{
   width:100%;max-width:640px;
   border:2px dashed var(--color-border);
   border-radius:var(--radius-xl);
-  padding:var(--space-16) var(--space-8);
+  padding:var(--space-12) var(--space-8);
   text-align:center;cursor:pointer;
   transition:border-color var(--transition-base),background var(--transition-base),box-shadow var(--transition-base);
   background:var(--color-bg-1);
@@ -501,11 +501,11 @@ input:focus,select:focus,textarea:focus{
 .select-wrap select:focus{outline:none;border-color:var(--color-accent)}
 .select-wrap::after{content:"\25BC";position:absolute;right:.6rem;top:50%;transform:translateY(-50%);font-size:.55rem;color:var(--color-text-muted);pointer-events:none}
 
-.btn-primary{background:linear-gradient(135deg,var(--color-accent),#9333ea);color:#fff;border:none;padding:.75rem 1.5rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
+.btn-primary{background:var(--gradient-brand);color:#fff;border:none;padding:.75rem 1.5rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-glow)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
-.btn-secondary{background:var(--color-bg-3);color:var(--color-text-primary);border:1px solid var(--color-border);padding:.65rem 1.25rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
+.btn-secondary{background:rgba(var(--color-bg-3-rgb), 0.5);color:var(--color-text-primary);border:1px solid var(--color-border-strong);padding:.65rem 1.25rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
@@ -1424,7 +1424,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   width:100%;max-width:640px;
   border:2px dashed var(--color-border);
   border-radius:var(--radius-xl);
-  padding:var(--space-16) var(--space-8);
+  padding:var(--space-12) var(--space-8);
   text-align:center;cursor:pointer;
   transition:border-color var(--transition-base),background var(--transition-base),box-shadow var(--transition-base),transform var(--transition-base);
   background:var(--color-bg-1);
@@ -2222,7 +2222,7 @@ a:focus-visible{
 .landing-title{
   margin:0;
   font-size:clamp(2.6rem,5.5vw,5.4rem);
-  line-height:0.94;
+  line-height:1.05;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
 }
