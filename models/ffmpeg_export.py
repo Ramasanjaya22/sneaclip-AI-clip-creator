@@ -82,7 +82,7 @@ def _build_filter_complex(video_path, clips, editor_options):
             bg_target_h = target_h // 4
             filters.append(
                 f"{v_stream}split[fg_full][bg_full];"
-                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
+                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase:flags=fast_bilinear,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}:flags=fast_bilinear[bg];"
                 f"[fg_full]scale={target_w}:{target_h}:force_original_aspect_ratio=decrease[fg];"
                 f"[bg][fg]overlay=(W-w)/2:(H-h)/2:format=auto[vert_v]"
             )

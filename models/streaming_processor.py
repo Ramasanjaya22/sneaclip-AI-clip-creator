@@ -99,13 +99,14 @@ def process_video_pipeline(job_id, video_path, config=None):
 
 
 def extract_audio_streaming(video_path, segment_length=300):
+    from models.ffmpeg_utils import get_ffmpeg_exe
     import subprocess
     import glob
     
     output_base = video_path + "_audio_segment"
     
     cmd = [
-        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_path,
+        get_ffmpeg_exe(), "-hide_banner", "-loglevel", "warning", "-i", video_path,
         "-vn",
         "-acodec", "pcm_s16le",
         "-ar", "22050",
