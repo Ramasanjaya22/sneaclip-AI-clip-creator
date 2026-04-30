@@ -222,6 +222,21 @@ app.jinja_env.auto_reload = False
 import os as __os # just in case
 # Security configurations
 is_prod = __os.environ.get('FLASK_ENV') == 'production' or __os.environ.get('NODE_ENV') == 'production'
+app.secret_key = __os.environ.get('FLASK_SECRET_KEY', __os.urandom(32))
+
+ALLOWED_EXTENSIONS_VIDEO = {'.mp4', '.avi', '.mov', '.mkv', '.webm'}
+ALLOWED_EXTENSIONS_MUSIC = {'.mp3', '.wav', '.m4a', '.ogg', '.flac'}
+ALLOWED_EXTENSIONS_IMAGE = {'.png', '.jpg', '.jpeg', '.webp'}
+
+def allowed_file_extension(filename, allowed_exts):
+    if not filename:
+        return False
+    ext = __os.path.splitext(filename)[1].lower()
+    return ext in allowed_exts
+
+def safe_error(e):
+    return "Internal Server Error" if is_prod else str(e)
+
 app.config.update(
     SESSION_COOKIE_SECURE=is_prod,
     SESSION_COOKIE_HTTPONLY=True,
@@ -378,6 +393,13 @@ def main():
             try:
                 video = request.files["video"]
                 if video:
+                    if not allowed_file_extension(video.filename, ALLOWED_EXTENSIONS_VIDEO):
+                        return render_template(
+                            "index.html",
+                            config=config,
+                            error_msg="Invalid video file extension."
+                        )
+
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
@@ -443,8 +465,8 @@ def main():
                     )
 
             except Exception as e:
-                error_msg = traceback.format_exc()
-                logger.error(f"Error processing video: {error_msg}")
+                error_msg = safe_error(e)
+                logger.error(f"Error processing video: {traceback.format_exc()}")
                 return render_template(
                     "index.html",
                     config=config,
@@ -584,7 +606,7 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
@@ -604,6 +626,8 @@ def upload_music():
         file = request.files["music"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_MUSIC):
+            return jsonify({"success": False, "error": "Invalid music file extension"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
@@ -611,7 +635,7 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +666,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -653,13 +677,15 @@ def upload_watermark():
         file = request.files["watermark"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_IMAGE):
+            return jsonify({"success": False, "error": "Invalid watermark file extension"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +719,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 from flask import send_from_directory
