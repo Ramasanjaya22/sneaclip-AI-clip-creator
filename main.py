@@ -228,6 +228,17 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     MAX_CONTENT_LENGTH=10240 * 1024 * 1024 # 10GB max length to match config
 )
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', os.urandom(32))
+
+ALLOWED_EXTENSIONS_VIDEO = {'mp4', 'mov', 'avi', 'mkv', 'webm'}
+ALLOWED_EXTENSIONS_MUSIC = {'mp3', 'wav', 'm4a', 'ogg', 'flac'}
+ALLOWED_EXTENSIONS_IMAGE = {'png', 'jpg', 'jpeg', 'webp'}
+
+def allowed_file_extension(filename, allowed_set):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_set
+
+def safe_error(e):
+    return "Internal Server Error" if is_prod else str(e)
 
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
@@ -341,6 +352,8 @@ def set_cache_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' https://cdn.plyr.io https://unpkg.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://cdn.plyr.io; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self';"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
 
     return response
 
@@ -378,6 +391,13 @@ def main():
             try:
                 video = request.files["video"]
                 if video:
+                    if not allowed_file_extension(video.filename, ALLOWED_EXTENSIONS_VIDEO):
+                        return render_template(
+                            "index.html",
+                            config=config,
+                            error="Invalid video file format.",
+                            folders=get_files(clip_folder)
+                        )
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
@@ -448,7 +468,7 @@ def main():
                 return render_template(
                     "index.html",
                     config=config,
-                    error=str(e),
+                    error=safe_error(e),
                     folders=get_files(clip_folder)
                 )
 
@@ -584,7 +604,7 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
@@ -604,6 +624,8 @@ def upload_music():
         file = request.files["music"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_MUSIC):
+            return jsonify({"success": False, "error": "Invalid music file format."}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
@@ -611,7 +633,7 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +664,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -653,13 +675,15 @@ def upload_watermark():
         file = request.files["watermark"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_IMAGE):
+            return jsonify({"success": False, "error": "Invalid image file format."}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +717,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 from flask import send_from_directory
@@ -752,7 +776,12 @@ def upload_chunk():
     if not upload_id or chunk_index is None:
         return jsonify({"error": "Missing X-Upload-Id or X-Chunk-Index"}), 400
     
-    chunk_index = int(chunk_index)
+    upload_id = secure_filename(upload_id)
+
+    try:
+        chunk_index = int(chunk_index)
+    except ValueError:
+        return jsonify({"error": "Invalid chunk index"}), 400
     
     if "chunk" not in request.files:
         return jsonify({"error": "No chunk provided"}), 400
@@ -774,6 +803,8 @@ def finalize_upload():
     
     if not upload_id:
         return jsonify({"error": "Missing upload_id"}), 400
+
+    upload_id = secure_filename(upload_id)
     
     try:
         result = finalize_upload(upload_id)
@@ -784,6 +815,7 @@ def finalize_upload():
 
 @app.route("/job-status/<job_id>")
 def job_status(job_id):
+    job_id = secure_filename(job_id)
     job = get_job(job_id)
     if not job:
         return jsonify({"error": "Job not found"}), 404
@@ -797,6 +829,8 @@ def process_video_async():
     
     if not job_id:
         return jsonify({"error": "Missing job_id"}), 400
+
+    job_id = secure_filename(job_id)
     
     job = get_job(job_id)
     if not job:
