@@ -509,6 +509,8 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
+.btn-lg{padding:0.8rem 1.8rem;font-size:1rem;min-height:52px}
+.btn-glow{box-shadow:0 4px 12px rgba(238, 75, 147, 0.3)}
 
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
@@ -2224,7 +2226,7 @@ a:focus-visible{
   font-size:clamp(2.6rem,5.5vw,5.4rem);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
-  max-width:10ch;
+  max-width:15ch;
 }
 .landing-description{
   margin:0;
@@ -2247,6 +2249,7 @@ a:focus-visible{
   display:flex;
   flex-wrap:wrap;
   gap:var(--space-2);
+  margin-top:1rem;
 }
 .landing-chips span{
   padding:0.6rem 0.9rem;
@@ -2451,7 +2454,7 @@ a:focus-visible{
     padding-top:0;
   }
   .landing-copy{max-width:none}
-  .landing-title{max-width:12ch}
+  .landing-title{max-width:16ch}
   .hero-stage{
     min-height:auto;
     padding:0;
