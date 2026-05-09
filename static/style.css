@@ -430,8 +430,8 @@ input:focus,select:focus,textarea:focus{
 .upload-thumb{position:absolute;inset:0;border-radius:var(--radius-lg);overflow:hidden;background:var(--color-bg-3)}
 .upload-thumb video{width:240px;height:auto;max-height:180px;object-fit:cover;border-radius:var(--radius-lg)}
 
-.upload-area h2{font-size:1.15rem;font-weight:var(--font-semibold);margin-bottom:var(--space-1);transition:var(--transition-base);color:var(--color-text-primary)}
-.upload-area p{color:var(--color-text-muted);font-size:.85rem}
+.upload-area h2{font-size:1.25rem;font-weight:var(--font-semibold);margin-bottom:var(--space-2);transition:var(--transition-base);color:var(--color-text-primary)}
+.upload-area p{color:var(--color-text-secondary);font-size:.95rem}
 .upload-area .formats{color:var(--color-text-soft);font-size:.8rem;margin-top:var(--space-3);letter-spacing:var(--tracking-wide)}
 
 .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;z-index:1}
@@ -509,6 +509,7 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
+.btn-lg{padding:1rem 2rem;font-size:1.1rem;min-height:56px}
 
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
@@ -1207,7 +1208,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
  * ============================================ */
 
 /* ── Fluid Typography ── */
-.upload-area h2{font-size:clamp(1rem,2.5vw,1.15rem)}
+.upload-area h2{font-size:clamp(1.15rem,2.5vw,1.25rem)}
 .results-toolbar-left h2{font-size:clamp(.85rem,2vw,1rem)}
 .editor-top h2{font-size:clamp(.85rem,2vw,.9rem)}
 .modal-header h3{font-size:clamp(.85rem,2vw,.95rem)}
@@ -1343,8 +1344,8 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .modal-body{padding:var(--space-3)}
   .modal-header{padding:var(--space-3)}
   .btn-primary,.btn-secondary{font-size:.82rem;padding:.55rem 1rem;min-height:44px}
-  .upload-area h2{font-size:.95rem}
-  .upload-area p{font-size:.78rem}
+  .upload-area h2{font-size:1.1rem}
+  .upload-area p{font-size:.85rem}
   .upload-area .formats{font-size:.75rem}
   .clip-info{padding:var(--space-2) var(--space-3)}
   .clip-title{font-size:.82rem}
