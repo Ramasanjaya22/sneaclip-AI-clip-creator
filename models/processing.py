@@ -17,12 +17,13 @@ def process_video(video_file, segment_length, output_dir):
     import subprocess
     import glob
     import re
+    from models.ffmpeg_utils import get_ffmpeg_exe
     os.makedirs(output_dir, exist_ok=True)
 
     output_pattern = os.path.join(output_dir, "segment_%03d.wav")
 
     cmd = [
-        "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+        get_ffmpeg_exe(), "-y", "-hide_banner", "-loglevel", "warning",
         "-i", video_file,
         "-vn",
         "-acodec", "pcm_s16le",
@@ -191,17 +192,18 @@ def find_clips(scores, sr, minimum_length, maximum_length, number_of_clips, leni
 
 def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_clip_end, editor_options=None):
     import subprocess
+    from models.ffmpeg_utils import get_ffmpeg_exe, get_ffprobe_exe
     os.makedirs(output_dir, exist_ok=True)
     clip_paths = []
 
     # Get duration using ffprobe
     try:
         cmd_probe = [
-            "ffprobe", "-v", "error", "-show_entries",
+            get_ffprobe_exe(), "-v", "error", "-show_entries",
             "format=duration", "-of",
             "default=noprint_wrappers=1:nokey=1", video_file
         ]
-        duration_str = subprocess.check_output(cmd_probe, universal_newlines=True).strip()
+        duration_str = subprocess.check_output(cmd_probe, universal_newlines=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0).strip()
         video_duration = float(duration_str)
     except Exception:
         # Fallback to moviepy duration if ffprobe fails or is not available
@@ -234,7 +236,7 @@ def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_cl
             else:
                 # Use fast ffmpeg for simple trimming
                 cmd = [
-                    "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+                    get_ffmpeg_exe(), "-y", "-hide_banner", "-loglevel", "warning",
                     "-ss", str(start_time),
                     "-i", video_file,
                     "-t", str(end_time - start_time),
@@ -243,7 +245,7 @@ def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_cl
                     "-threads", "0",
                     output_path
                 ]
-                subprocess.run(cmd, check=True)
+                subprocess.run(cmd, check=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
 
             clip_paths.append(output_path)
             clip_number += 1
