@@ -101,11 +101,12 @@ def process_video_pipeline(job_id, video_path, config=None):
 def extract_audio_streaming(video_path, segment_length=300):
     import subprocess
     import glob
+    from models.ffmpeg_utils import get_ffmpeg_exe
     
     output_base = video_path + "_audio_segment"
     
     cmd = [
-        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_path,
+        get_ffmpeg_exe(), "-hide_banner", "-loglevel", "warning", "-i", video_path,
         "-vn",
         "-acodec", "pcm_s16le",
         "-ar", "22050",
@@ -117,7 +118,8 @@ def extract_audio_streaming(video_path, segment_length=300):
     ]
     
     subprocess.run(cmd, check=True, timeout=3600, 
-                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                  stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                  creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
     
     return sorted(glob.glob(f"{output_base}_*.wav"))
 
