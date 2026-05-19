@@ -201,7 +201,7 @@ input:focus,select:focus,textarea:focus{
 }
 .landing-hero h1{
   margin:0;
-  font-size:clamp(1.55rem,3.8vw,2.7rem);
+  font-size:clamp(2rem, 5vw, 3.5rem);
   line-height:1.06;
   color:var(--color-text-primary)
 }
@@ -341,7 +341,7 @@ input:focus,select:focus,textarea:focus{
 /* Upload area */
 .upload-area{
   width:100%;max-width:640px;
-  border:2px dashed var(--color-border);
+  border:1px dashed var(--color-border-strong);
   border-radius:var(--radius-xl);
   padding:var(--space-16) var(--space-8);
   text-align:center;cursor:pointer;
@@ -381,7 +381,7 @@ input:focus,select:focus,textarea:focus{
   inherits:false;
 }
 
-.upload-area:hover{border-color:var(--color-accent);background:var(--color-bg-2)}
+.upload-area:hover{border-color:var(--color-accent);background:var(--color-bg-2);box-shadow:var(--shadow-glow)}
 .upload-area.dragover{
   border-color:transparent;
   background:var(--color-bg-2);
@@ -1305,7 +1305,12 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   /* Touch targets: min 48px */
   .btn-icon{width:44px;height:44px}
   .nav-link{min-height:44px}
-  .btn-primary,.btn-secondary{min-height:44px}
+  .btn-primary,.btn-secondary{
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
   .filter-pill{padding:var(--space-2) var(--space-3);min-height:44px;min-width:44px}
   .select-all-indicator{width:22px;height:22px}
   .toggle{width:48px;height:26px}
@@ -1342,7 +1347,14 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .control-group{padding:var(--space-2) var(--space-3)}
   .modal-body{padding:var(--space-3)}
   .modal-header{padding:var(--space-3)}
-  .btn-primary,.btn-secondary{font-size:.82rem;padding:.55rem 1rem;min-height:44px}
+  .btn-primary,.btn-secondary{
+    font-size:.82rem;
+    padding:.55rem 1rem;
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
   .upload-area h2{font-size:.95rem}
   .upload-area p{font-size:.78rem}
   .upload-area .formats{font-size:.75rem}
@@ -2243,6 +2255,13 @@ a:focus-visible{
   min-height:48px;
   padding-inline:1.25rem;
 }
+.landing-actions .btn-primary{
+  padding:0.8rem 1.8rem;
+  font-size:var(--fluid-base);
+}
+.landing-actions .btn-secondary{
+  opacity:0.9;
+}
 .landing-chips{
   display:flex;
   flex-wrap:wrap;
@@ -2404,6 +2423,7 @@ a:focus-visible{
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:var(--space-4);
   margin-bottom:clamp(1.5rem,3vw,2.5rem);
+  margin-top:var(--space-16);
 }
 .landing-flow-item{
   padding:1rem 1.1rem;
@@ -2429,6 +2449,7 @@ a:focus-visible{
     linear-gradient(180deg, rgba(var(--color-primary-rgb),0.08), transparent 22%),
     rgba(var(--color-bg-1-rgb),0.9);
   box-shadow:var(--shadow-md);
+  margin-top:var(--space-16);
 }
 .landing-upload-header{
   display:grid;
@@ -2497,9 +2518,11 @@ a:focus-visible{
   .landing-flow{
     grid-template-columns:1fr;
     gap:var(--space-2);
+    margin-top:var(--space-12);
   }
   .landing-upload{
     padding:var(--space-4);
+    margin-top:var(--space-12);
   }
 }
 

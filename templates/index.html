@@ -15,8 +15,8 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
     <link rel="preload" as="style" href="https://cdn.plyr.io/3.7.8/plyr.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"></noscript>
-    <link rel="preload" as="style" href="../static/style.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../static/style.css"></noscript>
+    <link rel="preload" as="style" href="/static/style.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/static/style.css"></noscript>
     {% include "_critical_css.html" %}
 </head>
 <body>
@@ -24,7 +24,7 @@
     <div class="topbar">
 <div class="topbar-left">
             <a href="#" class="logo" aria-label="Sneaclip home">
-                <img class="logo-image" src="../static/assets/sneaclip-logo.png" alt="Sneaclip">
+                <img class="logo-image" src="/static/assets/sneaclip-logo.png" alt="Sneaclip">
             </a>
         </div>
         <nav class="topbar-nav" id="mobile-nav" aria-label="Main navigation">
@@ -62,8 +62,8 @@
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
                     <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary" id="btn-hero-start">Upload a video</button>
+                        <button type="button" class="btn-secondary" id="btn-hero-preview">See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="hero-screen-body">
                                 <div class="hero-screen-preview">
-                                    <img src="../static/previews/preview_121319.png" alt="Sneaclip preview mockup">
+                                    <img src="/static/previews/preview_121319.png" alt="Sneaclip preview mockup">
                                 </div>
                                 <div class="hero-screen-sidebar">
                                     <div class="hero-mini-card">
@@ -104,14 +104,14 @@
                             </div>
                         </article>
                         <article class="hero-floating-card hero-floating-card--clip">
-                            <video src="../static/clips/2026-04-24/0.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                            <video src="/static/clips/2026-04-24/0.mp4" autoplay muted loop playsinline preload="metadata"></video>
                             <div class="hero-floating-meta">
                                 <span>Best moment</span>
                                 <strong>00:18 · Hook locked</strong>
                             </div>
                         </article>
                         <article class="hero-floating-card hero-floating-card--stack">
-                            <img src="../static/previews/preview_121135.png" alt="Clip stack mockup">
+                            <img src="/static/previews/preview_121135.png" alt="Clip stack mockup">
                             <div class="hero-floating-meta">
                                 <span>Preview stack</span>
                                 <strong>Review before export</strong>
