@@ -510,6 +510,11 @@ input:focus,select:focus,textarea:focus{
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
 
+.btn-hero{font-size:1rem;padding:0.8rem 1.8rem;box-shadow:0 4px 12px rgba(238, 75, 147, 0.3)}
+.btn-hero:hover{box-shadow:0 6px 16px rgba(238, 75, 147, 0.4)}
+.btn-hero-sec{opacity:0.9;font-size:0.95rem;padding:0.75rem 1.6rem}
+.btn-hero-sec:hover{opacity:1}
+
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
 .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
@@ -2402,14 +2407,15 @@ a:focus-visible{
 .landing-flow{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:var(--space-4);
-  margin-bottom:clamp(1.5rem,3vw,2.5rem);
+  gap:var(--space-6);
+  margin-bottom:clamp(2.5rem,4vw,3.5rem);
+  padding:0 var(--space-4);
 }
 .landing-flow-item{
-  padding:1rem 1.1rem;
+  padding:1.25rem 1.5rem;
   border-top:1px solid rgba(255,255,255,0.08);
   display:grid;
-  gap:0.4rem;
+  gap:0.5rem;
 }
 .landing-flow-item strong{
   font-size:var(--text-lg);
