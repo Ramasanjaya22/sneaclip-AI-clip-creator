@@ -252,4 +252,31 @@
   --radius: var(--radius-md);
   --shadow: var(--shadow-lg);
   --transition: var(--transition-base);
+
+
+  /* ============================================
+   * ADDITIONAL FLUID TYPOGRAPHY & SPACING
+   * ============================================ */
+  --fluid-hero: clamp(2.6rem, 5.5vw, 5.4rem);
+  --fluid-hero-mobile: clamp(2.2rem, 12vw, 3.5rem);
+  --fluid-hero-mobile-sm: clamp(1.28rem, 8vw, 1.58rem);
+  --fluid-4xl-custom: clamp(1.55rem, 3.8vw, 2.7rem);
+  --fluid-h2: clamp(1rem, 2.5vw, 1.15rem);
+  --fluid-h2-sm: clamp(0.85rem, 2vw, 1rem);
+  --fluid-h2-xs: clamp(0.85rem, 2vw, 0.95rem);
+  --fluid-text-lg: clamp(1.25rem, 2vw, 1.75rem);
+  --fluid-text-base: clamp(1rem, 1.5vw, 1.1rem);
+  --fluid-text-sm: clamp(0.88rem, 1.5vw, 1rem);
+
+  --fluid-gap-lg: clamp(2rem, 4vw, 4rem);
+  --fluid-gap-md: clamp(var(--space-4), 3vw, var(--space-8));
+
+  --fluid-pad-y-lg: clamp(1rem, 2vw, 2rem);
+  --fluid-pad-y-md: clamp(1rem, 2vw, 1.5rem);
+  --fluid-pad-x-md: clamp(var(--space-4), 2.4vw, var(--space-6));
+  --fluid-pad-all-md: clamp(1.25rem, 2vw, 1.5rem);
+  --fluid-pad-b-lg: clamp(2rem, 4vw, 3rem);
+
+  --fluid-margin-b: clamp(1.5rem, 3vw, 2.5rem);
+
 }
