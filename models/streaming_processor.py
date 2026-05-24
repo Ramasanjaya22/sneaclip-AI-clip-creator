@@ -3,6 +3,9 @@ import time
 import json
 from models.job_store import get_job, transition_job, update_job
 from models.chunked_upload import get_upload_status
+from models.ffmpeg_utils import get_ffmpeg_exe
+
+FFMPEG_EXE = get_ffmpeg_exe()
 
 VIDEO_FOLDER = os.path.abspath("./static/uploads")
 CLIP_FOLDER = os.path.abspath("./static/clips")
@@ -105,7 +108,7 @@ def extract_audio_streaming(video_path, segment_length=300):
     output_base = video_path + "_audio_segment"
     
     cmd = [
-        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_path,
+        FFMPEG_EXE, "-hide_banner", "-loglevel", "warning", "-i", video_path,
         "-vn",
         "-acodec", "pcm_s16le",
         "-ar", "22050",
