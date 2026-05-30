@@ -78,8 +78,8 @@ def _render_vertical_frame(frame, blur_bg=True, blur_radius=BLUR_RADIUS_DEFAULT)
     img = Image.fromarray(frame)
 
     if aspect > target_aspect and blur_bg:
-        bg = img.resize((int(h * target_aspect), h), Image.LANCZOS) if aspect > 1 else img.copy()
-        bg = bg.resize((target_w, target_h), Image.LANCZOS)
+        bg = img.resize((int(h * target_aspect), h), Image.BILINEAR) if aspect > 1 else img.copy()
+        bg = bg.resize((target_w, target_h), Image.BILINEAR)
         blurred = _blur_frame_fast(np.array(bg), blur_radius)
         blurred_img = Image.fromarray(blurred)
 
@@ -292,6 +292,6 @@ VIDEO_WRITE_KWARGS = dict(
     audio_fps=None,
     logger=None,
     threads=os.cpu_count() or 4,
-    preset="fast",
+    preset="veryfast",
     ffmpeg_params=["-movflags", "+faststart"],
 )
