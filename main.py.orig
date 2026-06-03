@@ -242,9 +242,6 @@ ALLOWED_EXTENSIONS_IMAGE = {'png', 'jpg', 'jpeg', 'webp'}
 def allowed_file_extension(filename, allowed_set):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_set
 
-def safe_error(e):
-    return "Internal Server Error" if is_prod else str(e)
-
 
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
@@ -470,7 +467,7 @@ def main():
                 return render_template(
                     "index.html",
                     config=config,
-                    error=safe_error(e),
+                    error=str(e),
                     folders=get_files(clip_folder)
                 )
 
@@ -606,12 +603,11 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": safe_error(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
 def export_status(job_id):
-    job_id = secure_filename(job_id)
     from models.ffmpeg_export import get_job_status, cleanup_job
     status = get_job_status(job_id)
     if status.get("status") in ("done", "error"):
@@ -638,7 +634,7 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": safe_error(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -669,7 +665,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": safe_error(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -690,7 +686,7 @@ def upload_watermark():
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": safe_error(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -724,7 +720,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": safe_error(e)}), 500
+        return jsonify({"success": False, "error": str(e)}), 500
 
 
 from flask import send_from_directory
@@ -778,20 +774,19 @@ def collect_metrics():
 @app.route("/upload-chunk", methods=["POST"])
 def upload_chunk():
     upload_id = request.headers.get("X-Upload-Id")
-    if upload_id: upload_id = secure_filename(upload_id)
     chunk_index = request.headers.get("X-Chunk-Index")
-    
+
     if not upload_id or chunk_index is None:
         return jsonify({"error": "Missing X-Upload-Id or X-Chunk-Index"}), 400
-    
+
     chunk_index = int(chunk_index)
-    
+
     if "chunk" not in request.files:
         return jsonify({"error": "No chunk provided"}), 400
-    
+
     chunk_file = request.files["chunk"]
     chunk_data = chunk_file.read()
-    
+
     try:
         result = receive_chunk(upload_id, chunk_index, chunk_data)
         return jsonify(result)
@@ -803,11 +798,10 @@ def upload_chunk():
 def finalize_upload():
     data = request.get_json(force=True)
     upload_id = data.get("upload_id")
-    if upload_id: upload_id = secure_filename(upload_id)
-    
+
     if not upload_id:
         return jsonify({"error": "Missing upload_id"}), 400
-    
+
     try:
         result = finalize_upload(upload_id)
         return jsonify(result)
@@ -817,7 +811,6 @@ def finalize_upload():
 
 @app.route("/job-status/<job_id>")
 def job_status(job_id):
-    job_id = secure_filename(job_id)
     job = get_job(job_id)
     if not job:
         return jsonify({"error": "Job not found"}), 404
@@ -828,22 +821,21 @@ def job_status(job_id):
 def process_video_async():
     data = request.get_json(force=True)
     job_id = data.get("job_id") or data.get("upload_id")
-    if job_id: job_id = secure_filename(job_id)
-    
+
     if not job_id:
         return jsonify({"error": "Missing job_id"}), 400
-    
+
     job = get_job(job_id)
     if not job:
         return jsonify({"error": "Job not found"}), 404
-    
+
     video_path = None
     if job.get("metadata"):
         video_path = job["metadata"].get("final_path")
-    
+
     if not video_path or not os.path.exists(video_path):
         return jsonify({"error": "Video file not found"}), 404
-    
+
     def process_worker():
         try:
             from models.streaming_processor import process_video_pipeline
@@ -851,11 +843,11 @@ def process_video_async():
         except Exception as e:
             import traceback
             logger.error(f"Processing failed: {traceback.format_exc()}")
-    
+
     thread = threading.Thread(target=process_worker)
     thread.daemon = True
     thread.start()
-    
+
     return jsonify({
         "job_id": job_id,
         "status_url": f"/job-status/{job_id}"
