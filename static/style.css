@@ -60,6 +60,12 @@ input:focus,select:focus,textarea:focus{
   border:0
 }
 
+.mb-3 { margin-bottom: 0.75rem; }
+.m-0 { margin: 0; }
+.flex-1 { flex: 1; }
+.w-min-100 { min-width: 100px; }
+
+
 .container{
   width:100%;
   max-width:1200px;
@@ -507,6 +513,7 @@ input:focus,select:focus,textarea:focus{
 
 .btn-secondary{background:var(--color-bg-3);color:var(--color-text-primary);border:1px solid var(--color-border);padding:.65rem 1.25rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:500;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
+
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
 
@@ -1167,8 +1174,8 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   right: 1.5rem;
 }
 
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center;color:var(--color-text-muted);animation:fade-in .5s ease}
-.empty-state .icon{font-size:3rem;margin-bottom:1rem;opacity:.6}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4rem 2rem;text-align:center;color:var(--color-text-muted);animation:fade-in .5s ease;border:2px dashed var(--color-border);background:var(--color-bg-2);border-radius:var(--radius-xl);gap:var(--space-2)}
+.empty-state .icon{font-size:3rem;margin-bottom:1rem;opacity:1;color:var(--color-accent)}
 .empty-state h3{font-size:1rem;font-weight:600;color:var(--color-text-secondary);margin-bottom:.3rem}
 .empty-state p{font-size:.85rem;max-width:360px}
 @keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -1819,6 +1826,18 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 .btn-secondary:hover{
   transform:translateY(-1px)
 }
+
+.btn-hero {
+  font-size: var(--fluid-base);
+  padding: 0.8rem 1.8rem;
+}
+.btn-hero.btn-primary {
+  box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);
+}
+.btn-hero.btn-secondary {
+  opacity: 0.9;
+}
+
 .btn-secondary:active{
   transform:translateY(0)
 }
