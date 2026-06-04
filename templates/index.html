@@ -589,6 +589,10 @@
       data-auto-load="{{ 'true' if config.auto_load_model else 'false' }}"
     ></div>
 
+    {% if error %}
+    <script type="application/json" id="error-data" data-error="{{ error }}"></script>
+    {% endif %}
+
     {% if editor_data %}
     <script id="editor-data" type="application/json">{{ editor_data | tojson }}</script>
     {% endif %}
