@@ -154,6 +154,17 @@
   --fluid-xl: clamp(1.0625rem, 0.975rem + 0.5vw, 1.25rem);
   --fluid-2xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
   --fluid-3xl: clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem);
+  --fluid-4xl: clamp(1.55rem, 3.8vw, 2.7rem);
+  --fluid-hero: clamp(2.6rem, 5.5vw, 5.4rem);
+
+  /* ============================================
+   * FLUID SPACING
+   * ============================================ */
+  --fluid-gap-lg: clamp(2rem, 4vw, 4rem);
+  --fluid-gap-md: clamp(var(--space-4), 3vw, var(--space-8));
+  --fluid-pad-lg: clamp(2rem, 4vw, 3rem);
+  --fluid-pad-md: clamp(1rem, 2vw, 2rem);
+  --fluid-pad-sm: clamp(1rem, 2vw, 1.5rem);
 
   /* ============================================
    * TYPOGRAPHY - LINE HEIGHTS
