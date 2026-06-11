@@ -1,0 +1,16 @@
+1. Implementasi `models/ffmpeg_utils.py` untuk mengelola executable `ffmpeg` dan `ffprobe` (sesuai instruksi dari memori). Ini memastikan bahwa environment variable (`FFMPEG_BINARY`) digunakan, dan aman jika di Windows.
+2. Update semua penggunaan `ffmpeg` dan `ffprobe` di seluruh file agar memakai `get_ffmpeg_exe()` dan `get_ffprobe_exe()` dari `ffmpeg_utils.py`. Jangan men-hardcode `"ffmpeg"` atau `"ffprobe"`.
+3. Dalam `models/ffmpeg_export.py`, optimalkan `_build_filter_complex`:
+    - Tambahkan flag `:flags=fast_bilinear` ke filter `scale` HANYA untuk background blur (`[bg_full]`).
+    - Pastikan input file diproses dengan baik.
+4. Dalam `models/ffmpeg_export.py`, optimalkan `export_video_ffmpeg`:
+    - Mengatur agar parameter `--threads 0` digunakan (sudah ada).
+    - Memastikan penggunaan preset `veryfast`.
+    - Di `models/ffmpeg_export.py::_has_audio_stream`, ganti `ffmpeg -i` dengan `ffprobe` karena lebih ringan.
+5. Dalam `models/processing.py`:
+    - Saat menggunakan `ffmpeg` untuk `process_video`, pastikan memanggil `get_ffmpeg_exe()`.
+    - Saat mencari duration di `create_clips`, gunakan `ffprobe` dengan `get_ffprobe_exe()`.
+    - Untuk pemotongan `ffmpeg` ringan (`create_clips`), ganti parameter seek (`-ss`) agar diletakkan *sebelum* `-i` (input seeking) karena jauh lebih cepat dan akurat untuk trimming, dan gunakan `preset veryfast` (sudah).
+6. Dalam `models/streaming_processor.py`:
+    - Update subprocess command di `extract_audio_streaming` agar memanggil `get_ffmpeg_exe()`.
+7. Testing & Verification.

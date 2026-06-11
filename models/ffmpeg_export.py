@@ -4,7 +4,9 @@ import subprocess
 
 import threading
 
-FFMPEG_EXE = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+from models.ffmpeg_utils import get_ffmpeg_exe, get_ffprobe_exe
+
+FFMPEG_EXE = get_ffmpeg_exe()
 
 _export_jobs = {}
 _job_counter = 0
@@ -63,9 +65,13 @@ def _build_filter_complex(video_path, clips, editor_options):
         inputs += ["-ss", str(start), "-t", str(end - start), "-i", video_path]
 
     if len(clips) > 1:
-        concat_str = "".join(f"[{idx}:v:0]" for idx in range(len(clips)))
+        # Interleave the streams to be [0:v:0][0:a:0][1:v:0][1:a:0]
+        concat_str = ""
+        for idx in range(len(clips)):
+            concat_str += f"[{idx}:v:0]"
+            if has_audio:
+                concat_str += f"[{idx}:a:0]"
         if has_audio:
-            concat_str += "".join(f"[{idx}:a:0]" for idx in range(len(clips)))
             filters.append(f"{concat_str}concat=n={len(clips)}:v=1:a=1[concat_v][concat_a]")
             v_stream, a_stream = "[concat_v]", "[concat_a]"
         else:
@@ -82,7 +88,7 @@ def _build_filter_complex(video_path, clips, editor_options):
             bg_target_h = target_h // 4
             filters.append(
                 f"{v_stream}split[fg_full][bg_full];"
-                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
+                f"[bg_full]scale={bg_target_w}:{bg_target_h}:flags=fast_bilinear:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
                 f"[fg_full]scale={target_w}:{target_h}:force_original_aspect_ratio=decrease[fg];"
                 f"[bg][fg]overlay=(W-w)/2:(H-h)/2:format=auto[vert_v]"
             )
@@ -182,6 +188,10 @@ def _build_filter_complex(video_path, clips, editor_options):
     elif a_stream and orig_vol < 1.0:
         filters.append(f"{a_stream}volume={orig_vol}[final_a]")
         a_stream = "[final_a]"
+    elif a_stream:
+        # Pass through audio unmodified, but use anull to put it in the filter graph
+        filters.append(f"{a_stream}anull[final_a]")
+        a_stream = "[final_a]"
 
     filters.append(f"{v_stream}format=yuv420p[final_v]")
     v_stream = "[final_v]"
@@ -194,10 +204,10 @@ def _has_audio_stream(video_path):
     try:
         import subprocess
         r = subprocess.run(
-            [FFMPEG_EXE, "-hide_banner", "-i", video_path],
+            [get_ffprobe_exe(), "-v", "error", "-show_streams", "-select_streams", "a", video_path],
             capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         )
-        return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
+        return len(r.stdout.strip()) > 0
     except Exception:
         return True
 
