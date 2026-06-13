@@ -2251,10 +2251,10 @@ a:focus-visible{
 .landing-chips span{
   padding:0.6rem 0.9rem;
   border-radius:var(--radius-full);
-  border:1px solid rgba(var(--color-primary-rgb),0.22);
-  background:rgba(var(--color-primary-rgb),0.08);
+  border:1px solid rgba(var(--color-primary-rgb),0.15);
+  background:rgba(var(--color-primary-rgb),0.04);
   color:var(--color-text-primary);
-  font-size:var(--text-sm);
+  font-size:0.85rem;
 }
 
 .landing-visual{position:relative}
@@ -2504,10 +2504,6 @@ a:focus-visible{
 }
 
 @media(max-width:375px){
-  .landing-chips span{
-    width:100%;
-    text-align:center;
-  }
   .hero-screen-top,
   .hero-screen-preview,
   .hero-screen-sidebar,
