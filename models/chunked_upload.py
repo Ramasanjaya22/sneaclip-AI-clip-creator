@@ -11,7 +11,10 @@ CHUNK_DIR = os.path.abspath("./static/uploads/.chunks")
 MAX_FILE_SIZE = 10 * 1024 * 1024 * 1024
 
 
+from werkzeug.utils import secure_filename
+
 def init_upload(upload_id, filename, file_size, metadata=None):
+    upload_id = secure_filename(str(upload_id))
     os.makedirs(CHUNK_DIR, exist_ok=True)
     
     upload_metadata = {
@@ -30,6 +33,7 @@ def init_upload(upload_id, filename, file_size, metadata=None):
 
 
 def receive_chunk(upload_id, chunk_index, chunk_data):
+    upload_id = secure_filename(str(upload_id))
     job = get_job(upload_id)
     if not job:
         raise ValueError(f"Upload {upload_id} not found")
@@ -67,6 +71,7 @@ def receive_chunk(upload_id, chunk_index, chunk_data):
 
 
 def finalize_upload(upload_id):
+    upload_id = secure_filename(str(upload_id))
     job = get_job(upload_id)
     if not job:
         raise ValueError(f"Upload {upload_id} not found")
@@ -109,6 +114,7 @@ def finalize_upload(upload_id):
 
 
 def get_upload_status(upload_id):
+    upload_id = secure_filename(str(upload_id))
     return get_job(upload_id)
 
 
