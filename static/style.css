@@ -2221,7 +2221,7 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
-  font-size:clamp(2.6rem,5.5vw,5.4rem);
+  font-size:var(--fluid-hero);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
@@ -2229,7 +2229,7 @@ a:focus-visible{
 .landing-description{
   margin:0;
   max-width:34rem;
-  font-size:clamp(1rem,1.5vw,1.1rem);
+  font-size:var(--fluid-lg);
   line-height:var(--leading-relaxed);
   color:var(--color-text-secondary);
 }
@@ -2240,8 +2240,14 @@ a:focus-visible{
 }
 .landing-actions .btn-primary,
 .landing-actions .btn-secondary{
-  min-height:48px;
-  padding-inline:1.25rem;
+  font-size:var(--fluid-base);
+  padding:var(--space-4) var(--space-6);
+}
+.landing-actions .btn-primary{
+  box-shadow:0 4px 12px rgba(var(--color-accent-rgb), 0.3);
+}
+.landing-actions .btn-secondary{
+  opacity:0.9;
 }
 .landing-chips{
   display:flex;
@@ -2251,8 +2257,9 @@ a:focus-visible{
 .landing-chips span{
   padding:0.6rem 0.9rem;
   border-radius:var(--radius-full);
-  border:1px solid rgba(var(--color-primary-rgb),0.22);
-  background:rgba(var(--color-primary-rgb),0.08);
+  border:1px solid var(--color-border);
+  background:var(--color-bg-2);
+  box-shadow:var(--shadow-sm);
   color:var(--color-text-primary);
   font-size:var(--text-sm);
 }
@@ -2275,8 +2282,8 @@ a:focus-visible{
 }
 .hero-screen,
 .hero-floating-card{
-  border:1px solid rgba(255,255,255,0.08);
-  background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border:1px solid var(--color-border);
+  background:var(--color-bg-1);
   box-shadow:var(--shadow-lg);
 }
 .hero-screen{
@@ -2328,11 +2335,14 @@ a:focus-visible{
   width:100%;
   height:100%;
   object-fit:cover;
+  background-color:var(--color-bg-2);
+  min-height:200px;
+  color:transparent;
 }
 .hero-screen-preview img{
   height:100%;
   border-radius:var(--radius-lg);
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid var(--color-border);
 }
 .hero-screen-sidebar{
   display:grid;
@@ -2343,8 +2353,8 @@ a:focus-visible{
 .hero-mini-card{
   padding:0.9rem;
   border-radius:var(--radius-lg);
-  background:rgba(var(--color-bg-0-rgb),0.48);
-  border:1px solid rgba(255,255,255,0.06);
+  background:var(--color-bg-2);
+  border:1px solid var(--color-border);
 }
 .hero-mini-card strong{
   display:block;
