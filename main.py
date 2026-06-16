@@ -229,6 +229,20 @@ app.config.update(
     MAX_CONTENT_LENGTH=10240 * 1024 * 1024 # 10GB max length to match config
 )
 
+app.secret_key = __os.environ.get('FLASK_SECRET_KEY')
+if not app.secret_key:
+    if is_prod:
+        raise ValueError("No FLASK_SECRET_KEY set for Flask application in production")
+    else:
+        app.secret_key = "dev-fallback-secret-key"
+
+
+def safe_error(e):
+    if is_prod:
+        return "Internal Server Error"
+    return str(e)
+
+
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
 # responses > 500 bytes. Reduces network transfer ~60-80% for text assets.
@@ -448,7 +462,7 @@ def main():
                 return render_template(
                     "index.html",
                     config=config,
-                    error=str(e),
+                    error=safe_error(e),
                     folders=get_files(clip_folder)
                 )
 
@@ -584,7 +598,7 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
@@ -611,7 +625,7 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +656,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -659,7 +673,7 @@ def upload_watermark():
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +707,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e)}), 500
 
 
 from flask import send_from_directory
