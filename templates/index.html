@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sneaclip — AI Autoclipper. Automatically detect and extract the best moments from your videos. Upload, analyze, edit, and export clips with ease.">
-    <title>Sneaclip — AI Autoclipper</title>
+    <title>SneaClip — AI Autoclipper</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%237d78ff'/%3E%3Cpath d='M8 8L16 16L8 24' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
-    <meta property="og:title" content="Sneaclip — AI Autoclipper">
+    <meta property="og:title" content="SneaClip — AI Autoclipper">
     <meta property="og:description" content="Automatically detect and extract the best moments from your videos. Upload, analyze, edit, and export clips with ease.">
     <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,8 +23,8 @@
     <a class="skip-link" href="#main-content">Skip to main content</a>
     <div class="topbar">
 <div class="topbar-left">
-            <a href="#" class="logo" aria-label="Sneaclip home">
-                <img class="logo-image" src="../static/assets/sneaclip-logo.png" alt="Sneaclip">
+            <a href="#" class="logo" aria-label="SneaClip home">
+                <img class="logo-image" src="../static/assets/sneaclip-logo.png" alt="SneaClip">
             </a>
         </div>
         <nav class="topbar-nav" id="mobile-nav" aria-label="Main navigation">
@@ -42,7 +42,7 @@
             </a>
         </nav>
         <div class="topbar-right">
-            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings">&#9881;</button>
+            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
             <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
                 <span></span>
                 <span></span>
@@ -58,12 +58,12 @@
             <div class="upload-page page active" id="page-upload">
             <section class="landing-hero" aria-labelledby="landing-title">
                 <div class="landing-copy">
-                    <span class="landing-kicker">Sneaclip · AI autoclipper</span>
+                    <span class="landing-kicker">SneaClip · AI autoclipper</span>
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
-                    <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
+                    <p class="landing-description">Upload once, let SneaClip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary btn-hero-start" id="btn-hero-start">Upload a video</button>
+                        <button type="button" class="btn-secondary btn-hero-preview" id="btn-hero-preview">See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -80,11 +80,11 @@
                                     <i></i>
                                     <i></i>
                                 </span>
-                                <span class="hero-screen-label">Sneaclip editor</span>
+                                <span class="hero-screen-label">SneaClip editor</span>
                             </div>
                             <div class="hero-screen-body">
                                 <div class="hero-screen-preview">
-                                    <img src="../static/previews/preview_121319.png" alt="Sneaclip preview mockup">
+                                    <img src="../static/previews/preview_121319.png" alt="SneaClip preview mockup">
                                 </div>
                                 <div class="hero-screen-sidebar">
                                     <div class="hero-mini-card">
@@ -162,7 +162,7 @@
                             <svg class="file-info__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="1" width="10" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 5h4M6 8h4M6 11h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                             <span class="file-name" id="file-name"></span>
                             <span class="file-size" id="file-size"></span>
-                            <button type="button" class="file-remove" id="file-remove" title="Remove" aria-label="Remove selected file">&times;</button>
+                            <button type="button" class="file-remove" id="file-remove" title="Remove" aria-label="Remove selected file"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                         </div>
                         <p class="formats">MP4, MOV, AVI, MKV up to 2GB</p>
                         <input type="file" name="video" accept="video/*" id="video-input">
@@ -204,12 +204,12 @@
                 <div class="progress-steps" id="progress-steps"></div>
             </div>
             <div class="upload-error" id="upload-error" style="display:none" role="alert">
-                <span class="error-icon">&#9888;</span>
+                <span class="error-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
                 <div class="error-body">
                     <h4 id="error-title">Upload failed</h4>
                     <p id="error-message">Something went wrong</p>
                 </div>
-                <button class="error-close" id="error-close" aria-label="Dismiss upload error">&times;</button>
+                <button class="error-close" id="error-close" aria-label="Dismiss upload error"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
         </div>
         </div>
@@ -244,8 +244,8 @@
                         </select>
                     </div>
                     <div class="layout-toggle" id="layout-toggle" style="display:none">
-                        <button class="active" data-view="grid" title="Grid view">&#9783;</button>
-                        <button data-view="list" title="List view">&#9776;</button>
+                        <button class="active" data-view="grid" title="Grid view"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></button>
+                        <button data-view="list" title="List view"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
                     </div>
                     <button class="btn-secondary btn-sm" id="btn-new-analysis">New Analysis</button>
                     <button class="btn-primary btn-sm" id="btn-export-all">Export All</button>
@@ -257,10 +257,10 @@
             </div>
             <div id="clips-container"></div>
             <div class="empty-state" id="no-clips" style="display:none">
-                <span class="icon">&#128161;</span>
+                <span class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path></svg></span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
-                <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
+                <button class="btn-secondary btn-sm" id="btn-adjust-settings">Open Settings</button>
             </div>
         </div>
         </div>
@@ -319,7 +319,7 @@
                             <video id="editor-video" controls playsinline>
                                 <source src="" type="video/mp4">
                             </video>
-                            <img id="preview-image" src="" alt="Preview" style="display:none;max-width:100%;border-radius:var(--radius-lg);">
+                            <img id="preview-image" src="" alt="Preview" style="display:none;">
                         </div>
                     </div>
                     <div class="editor-timeline">
@@ -508,7 +508,7 @@
                     <div class="export-inline-header">
                         <span class="export-inline-stage" id="export-inline-stage">Preparing...</span>
                         <span class="export-inline-percent" id="export-inline-percent">0%</span>
-                        <button class="export-inline-cancel" id="btn-cancel-export" title="Cancel" aria-label="Cancel export">&times;</button>
+                        <button class="export-inline-cancel" id="btn-cancel-export" title="Cancel" aria-label="Cancel export"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
                     </div>
                     <div class="progress-bar export-inline-bar"><div class="progress-fill" id="export-inline-fill"></div></div>
                     <div class="export-inline-footer">
@@ -526,52 +526,52 @@
         <div class="modal">
             <div class="modal-header">
                 <h3>Settings</h3>
-                <button class="modal-close" id="modal-close" aria-label="Close settings">&times;</button>
+                <button class="modal-close" id="modal-close" aria-label="Close settings"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
             <div class="modal-body">
                 <div class="setting-group">
                     <span class="setting-label">Processing</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Use GPU acceleration</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-1">Use GPU acceleration</span>
                         <button class="toggle" id="toggle-gpu" data-key="use_gpu"></button>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Auto-load model on start</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-1">Auto-load model on start</span>
                         <button class="toggle" id="toggle-auto-load" data-key="auto_load_model"></button>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Clip Detection</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Min length</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-min-width">Min length</span>
                         <input type="range" id="setting-min-length" min="1" max="60" value="{{ config.minimum_clip_length }}">
                         <span class="setting-value" id="val-min-length">{{ config.minimum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Max length</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-min-width">Max length</span>
                         <input type="range" id="setting-max-length" min="5" max="180" value="{{ config.maximum_clip_length }}">
                         <span class="setting-value" id="val-max-length">{{ config.maximum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Clips count</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-min-width">Clips count</span>
                         <input type="range" id="setting-num-clips" min="1" max="20" value="{{ config.number_of_clips }}">
                         <span class="setting-value" id="val-num-clips">{{ config.number_of_clips }}</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Threshold</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-min-width">Threshold</span>
                         <input type="range" id="setting-threshold" min="0" max="100" step="1" value="{{ (config.threshold * 100)|int }}">
                         <span class="setting-value" id="val-threshold">{{ (config.threshold * 100)|int }}%</span>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Padding</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Start pad</span>
+                    <div class="setting-row setting-row-margin">
+                        <span class="setting-label flex-label-min-width">Start pad</span>
                         <input type="range" id="setting-pad-start" min="0" max="5" step="0.5" value="{{ config.pad_clip_start }}">
                         <span class="setting-value" id="val-pad-start">{{ config.pad_clip_start }}s</span>
                     </div>
                     <div class="setting-row">
-                        <span class="setting-label" style="margin:0;min-width:100px">End pad</span>
+                        <span class="setting-label flex-label-min-width">End pad</span>
                         <input type="range" id="setting-pad-end" min="0" max="5" step="0.5" value="{{ config.pad_clip_end }}">
                         <span class="setting-value" id="val-pad-end">{{ config.pad_clip_end }}s</span>
                     </div>
