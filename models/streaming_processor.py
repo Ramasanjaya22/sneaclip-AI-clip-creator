@@ -3,6 +3,7 @@ import time
 import json
 from models.job_store import get_job, transition_job, update_job
 from models.chunked_upload import get_upload_status
+from models.ffmpeg_utils import get_ffmpeg_exe
 
 VIDEO_FOLDER = os.path.abspath("./static/uploads")
 CLIP_FOLDER = os.path.abspath("./static/clips")
@@ -105,7 +106,7 @@ def extract_audio_streaming(video_path, segment_length=300):
     output_base = video_path + "_audio_segment"
     
     cmd = [
-        "ffmpeg", "-hide_banner", "-loglevel", "warning", "-i", video_path,
+        get_ffmpeg_exe(), "-hide_banner", "-loglevel", "warning", "-i", video_path,
         "-vn",
         "-acodec", "pcm_s16le",
         "-ar", "22050",
@@ -139,6 +140,12 @@ def predict_segment(segment_path, config):
         return list(scores)
     else:
         rms = librosa.feature.rms(y=audio, frame_length=4096, hop_length=2048).squeeze()
+        if rms.size == 0 or rms.ndim == 0:
+             # handle empty or scalar rms
+             rms_list = [float(rms)] if rms.ndim == 0 else []
+             peak = float(np.max(rms_list)) if rms_list else 0.0
+             return [r / peak for r in rms_list] if peak > 0 else rms_list
+
         peak = float(np.max(rms))
         return list(rms / peak if peak > 0 else rms)
 
