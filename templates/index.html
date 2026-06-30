@@ -203,6 +203,16 @@
                 <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
                 <div class="progress-steps" id="progress-steps"></div>
             </div>
+            {% if error %}
+            <div class="upload-error" id="upload-error" role="alert">
+                <span class="error-icon">&#9888;</span>
+                <div class="error-body">
+                    <h4 id="error-title">Upload failed</h4>
+                    <p id="error-message">{{ error }}</p>
+                </div>
+                <button class="error-close" id="error-close" aria-label="Dismiss upload error">&times;</button>
+            </div>
+            {% else %}
             <div class="upload-error" id="upload-error" style="display:none" role="alert">
                 <span class="error-icon">&#9888;</span>
                 <div class="error-body">
@@ -211,6 +221,7 @@
                 </div>
                 <button class="error-close" id="error-close" aria-label="Dismiss upload error">&times;</button>
             </div>
+            {% endif %}
         </div>
         </div>
 
