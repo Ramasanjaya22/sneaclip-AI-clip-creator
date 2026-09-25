@@ -1,12 +1,12 @@
 # 🎬 SneaClip — AI Autoclipper
 
-[![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9C%93-green)](https://github.com/ramasanjaya3302/AI-clip-creator)
+[![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9C%93-green)](https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.1.2-black)](https://flask.palletsprojects.com)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red)](https://pytorch.org)
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/ramasanjaya3302/AI-clip-creator?style=social)](https://github.com/ramasanjaya3302/AI-clip-creator/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/ramasanjaya3302/AI-clip-creator?style=social)](https://github.com/ramasanjaya3302/AI-clip-creator/network)
+[![GitHub stars](https://img.shields.io/github/stars/Ramasanjaya22/sneaclip-AI-clip-creator?style=social)](https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Ramasanjaya22/sneaclip-AI-clip-creator?style=social)](https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator/network)
 [![Twitter Follow](https://img.shields.io/twitter/follow/Ramaas_8?style=social)](https://x.com/Ramaas_8)
 
 **SneaClip** is an improved, whitelabel-ready fork of open-source autoclip tools, built with Flask and PyTorch. It automatically detects and extracts engaging video clips from long-form videos using AI audio analysis. Features include **9:16 vertical conversion**, **blur background filling**, **watermark overlay**, **audio mixing**, and **fade effects**.
@@ -83,7 +83,7 @@ In the editor page, enable 9:16 aspect ratio with blur background, then take scr
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/ramasanjaya3302/AI-clip-creator.git
+git clone https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator.git
 cd AI-clip-creator
 ```
 
@@ -345,8 +345,8 @@ See the [LICENSE](LICENSE) file for full details.
 
 ### Need Help?
 
-- **Issues**: Use [GitHub Issues](https://github.com/ramasanjaya3302/AI-clip-creator/issues) to report bugs or request features
-- **Discussions**: Visit [GitHub Discussions](https://github.com/ramasanjaya3302/AI-clip-creator/discussions) for general questions
+- **Issues**: Use [GitHub Issues](https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator/issues) to report bugs or request features
+- **Discussions**: Visit [GitHub Discussions](https://github.com/Ramasanjaya22/sneaclip-AI-clip-creator/discussions) for general questions
 
 ### Connect With Us:
 - 📧 Email: ramasanjaya3302@gmail.com
@@ -389,7 +389,7 @@ See the [LICENSE](LICENSE) file for full details.
 
 If you find this project helpful, please consider giving us a star!
 
-![Star History Chart](https://api.star-history.com/svg?repos=ramasanjaya3302/AI-clip-creator&type=Date)](https://star-history.com/#ramasanjaya3302/AI-clip-creator&Date)
+![Star History Chart](https://api.star-history.com/svg?repos=Ramasanjaya22/sneaclip-AI-clip-creator&type=Date)](https://star-history.com/#Ramasanjaya22/sneaclip-AI-clip-creator&Date)
 
 ---
 
