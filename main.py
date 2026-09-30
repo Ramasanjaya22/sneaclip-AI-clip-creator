@@ -193,6 +193,22 @@ class SimpleCache:
 api_cache = SimpleCache(default_ttl=120)
 
 
+def is_valid_id(identifier):
+    if not identifier:
+        return False
+    return bool(re.match(r'^[\w-]+$', str(identifier)))
+
+def allowed_file_extension(filename, allowed_extensions):
+    if not filename or '.' not in filename:
+        return False
+    return filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+def safe_error(e, is_prod):
+    if is_prod:
+        return "Internal Server Error"
+    return str(e)
+
+
 def get_folder_name():
     return datetime.now().strftime("%Y-%m-%d")
 
@@ -228,6 +244,10 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     MAX_CONTENT_LENGTH=10240 * 1024 * 1024 # 10GB max length to match config
 )
+
+app.secret_key = __os.environ.get('FLASK_SECRET_KEY') or ('dev_fallback_secret_key' if not is_prod else None)
+if is_prod and not app.secret_key:
+    raise ValueError("FLASK_SECRET_KEY must be set in production")
 
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
@@ -342,6 +362,17 @@ def set_cache_headers(response):
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
 
+    csp = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline' https://cdn.plyr.io https://unpkg.com; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.plyr.io; "
+        "font-src 'self' https://fonts.gstatic.com; "
+        "img-src 'self' data: blob:; "
+        "media-src 'self' blob:; "
+        "connect-src 'self' blob:;"
+    )
+    response.headers["Content-Security-Policy"] = csp
+
     return response
 
 
@@ -377,7 +408,15 @@ def main():
         if "video" in request.files:
             try:
                 video = request.files["video"]
-                if video:
+                if video and video.filename != '':
+                    if not allowed_file_extension(video.filename, ['mp4', 'mov', 'avi', 'mkv']):
+                        return render_template(
+                            "index.html",
+                            config=config,
+                            error="Invalid video file type",
+                            folders=get_files(clip_folder)
+                        )
+
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
@@ -448,7 +487,7 @@ def main():
                 return render_template(
                     "index.html",
                     config=config,
-                    error=str(e),
+                    error=safe_error(e, is_prod),
                     folders=get_files(clip_folder)
                 )
 
@@ -584,11 +623,13 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
 def export_status(job_id):
+    if not is_valid_id(job_id):
+        return jsonify({"error": "Invalid job ID"}), 400
     from models.ffmpeg_export import get_job_status, cleanup_job
     status = get_job_status(job_id)
     if status.get("status") in ("done", "error"):
@@ -604,6 +645,8 @@ def upload_music():
         file = request.files["music"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ['mp3', 'wav', 'm4a', 'ogg', 'flac']):
+            return jsonify({"success": False, "error": "Invalid music file type"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
@@ -611,7 +654,7 @@ def upload_music():
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +685,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -653,13 +696,15 @@ def upload_watermark():
         file = request.files["watermark"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ['png']):
+            return jsonify({"success": False, "error": "Invalid watermark file type"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +738,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 from flask import send_from_directory
@@ -751,6 +796,8 @@ def upload_chunk():
     
     if not upload_id or chunk_index is None:
         return jsonify({"error": "Missing X-Upload-Id or X-Chunk-Index"}), 400
+    if not is_valid_id(upload_id):
+        return jsonify({"error": "Invalid upload ID"}), 400
     
     chunk_index = int(chunk_index)
     
@@ -774,6 +821,8 @@ def finalize_upload():
     
     if not upload_id:
         return jsonify({"error": "Missing upload_id"}), 400
+    if not is_valid_id(upload_id):
+        return jsonify({"error": "Invalid upload ID"}), 400
     
     try:
         result = finalize_upload(upload_id)
@@ -784,6 +833,8 @@ def finalize_upload():
 
 @app.route("/job-status/<job_id>")
 def job_status(job_id):
+    if not is_valid_id(job_id):
+        return jsonify({"error": "Invalid job ID"}), 400
     job = get_job(job_id)
     if not job:
         return jsonify({"error": "Job not found"}), 404
@@ -797,6 +848,8 @@ def process_video_async():
     
     if not job_id:
         return jsonify({"error": "Missing job_id"}), 400
+    if not is_valid_id(job_id):
+        return jsonify({"error": "Invalid job ID"}), 400
     
     job = get_job(job_id)
     if not job:
