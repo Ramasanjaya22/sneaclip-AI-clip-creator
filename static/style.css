@@ -2329,6 +2329,12 @@ a:focus-visible{
   height:100%;
   object-fit:cover;
 }
+.hero-screen-preview img,
+.hero-floating-card img{
+  background-color:var(--color-bg-2);
+  color:transparent;
+  min-height:24rem;
+}
 .hero-screen-preview img{
   height:100%;
   border-radius:var(--radius-lg);
@@ -2372,18 +2378,18 @@ a:focus-visible{
   backdrop-filter:blur(14px);
 }
 .hero-floating-card--clip{
-  right:-0.5rem;
-  bottom:1.75rem;
-  width:min(15rem,34%);
+  right:-4rem;
+  bottom:2.5rem;
+  width:min(14rem,30%);
 }
 .hero-floating-card--clip video{
   aspect-ratio:9/16;
   background:var(--color-bg-0);
 }
 .hero-floating-card--stack{
-  left:-0.75rem;
-  top:2.2rem;
-  width:min(14rem,32%);
+  left:-3rem;
+  top:3rem;
+  width:min(13rem,28%);
 }
 .hero-floating-card--stack img{
   aspect-ratio:4/5;
@@ -2446,6 +2452,9 @@ a:focus-visible{
 }
 
 @media(max-width:1023px){
+  .hero-floating-card{
+    display:none;
+  }
   .landing-hero{
     grid-template-columns:1fr;
     padding-top:0;
