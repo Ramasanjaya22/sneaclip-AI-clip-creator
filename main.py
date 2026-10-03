@@ -190,6 +190,21 @@ class SimpleCache:
         self._cache.clear()
 
 
+
+def safe_error(e, is_prod):
+    if is_prod:
+        return "Internal Server Error"
+    return str(e)
+
+
+
+def is_valid_id(identifier):
+    if not identifier: return False
+    return bool(re.match(r'^[\w-]+$', str(identifier)))
+
+def allowed_file_extension(filename, allowed_extensions):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
 api_cache = SimpleCache(default_ttl=120)
 
 
@@ -222,6 +237,12 @@ app.jinja_env.auto_reload = False
 import os as __os # just in case
 # Security configurations
 is_prod = __os.environ.get('FLASK_ENV') == 'production' or __os.environ.get('NODE_ENV') == 'production'
+
+secret_key = __os.environ.get('FLASK_SECRET_KEY')
+if is_prod and not secret_key:
+    raise ValueError("FLASK_SECRET_KEY environment variable is required in production")
+app.secret_key = secret_key or "dev-secret-key-default"
+
 app.config.update(
     SESSION_COOKIE_SECURE=is_prod,
     SESSION_COOKIE_HTTPONLY=True,
@@ -341,6 +362,8 @@ def set_cache_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' cdn.plyr.io unpkg.com; style-src 'self' 'unsafe-inline' cdn.plyr.io fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' data: blob:;"
+
 
     return response
 
@@ -381,6 +404,8 @@ def main():
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
+                    if not allowed_file_extension(filename, {"mp4", "mov", "avi", "mkv"}):
+                        return render_template("index.html", config=config, error="Invalid video file type", folders=get_files(clip_folder))
                     video_path = os.path.join(video_folder, filename)
                     video.save(video_path)
 
@@ -448,7 +473,7 @@ def main():
                 return render_template(
                     "index.html",
                     config=config,
-                    error=str(e),
+                    error=safe_error(e, is_prod),
                     folders=get_files(clip_folder)
                 )
 
@@ -584,7 +609,7 @@ def export_edit():
 
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/export-status/<job_id>", methods=["GET"])
@@ -605,13 +630,15 @@ def upload_music():
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
         filename = secure_filename(file.filename)
+        if not allowed_file_extension(filename, {"mp3", "wav", "m4a", "ogg", "flac"}):
+            return jsonify({"success": False, "error": "Invalid audio file type"}), 400
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
         api_cache.invalidate("list_music")
         return jsonify({"success": True, "music_url": "/static/uploads/music/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/list-music", methods=["GET"])
@@ -642,7 +669,7 @@ def list_music():
         return response
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/upload-watermark", methods=["POST"])
@@ -654,12 +681,14 @@ def upload_watermark():
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
         filename = secure_filename(file.filename)
+        if not allowed_file_extension(filename, {"png"}):
+            return jsonify({"success": False, "error": "Invalid image file type. Only PNG is supported."}), 400
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
         return jsonify({"success": True, "watermark_url": "/static/watermarks/" + filename})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 @app.route("/preview-clip", methods=["POST"])
@@ -693,7 +722,7 @@ def preview_clip():
         return jsonify({"success": True, "preview_url": "/static/previews/" + preview_name})
     except Exception as e:
         logger.error(traceback.format_exc())
-        return jsonify({"success": False, "error": str(e)}), 500
+        return jsonify({"success": False, "error": safe_error(e, is_prod)}), 500
 
 
 from flask import send_from_directory
@@ -751,6 +780,8 @@ def upload_chunk():
     
     if not upload_id or chunk_index is None:
         return jsonify({"error": "Missing X-Upload-Id or X-Chunk-Index"}), 400
+    if not is_valid_id(upload_id):
+        return jsonify({"error": "Invalid upload_id format"}), 400
     
     chunk_index = int(chunk_index)
     
@@ -774,6 +805,8 @@ def finalize_upload():
     
     if not upload_id:
         return jsonify({"error": "Missing upload_id"}), 400
+    if not is_valid_id(upload_id):
+        return jsonify({"error": "Invalid upload_id format"}), 400
     
     try:
         result = finalize_upload(upload_id)
@@ -784,6 +817,8 @@ def finalize_upload():
 
 @app.route("/job-status/<job_id>")
 def job_status(job_id):
+    if not is_valid_id(job_id):
+        return jsonify({"error": "Invalid job_id format"}), 400
     job = get_job(job_id)
     if not job:
         return jsonify({"error": "Job not found"}), 404
@@ -797,6 +832,8 @@ def process_video_async():
     
     if not job_id:
         return jsonify({"error": "Missing job_id"}), 400
+    if not is_valid_id(job_id):
+        return jsonify({"error": "Invalid job_id format"}), 400
     
     job = get_job(job_id)
     if not job:
