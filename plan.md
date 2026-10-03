@@ -1,0 +1,7 @@
+1. **Secret Handling**: Update the Flask app in `main.py` to require a `FLASK_SECRET_KEY` environment variable for secure session management. Fallback to a random default key in development but ensure it exists in production.
+2. **CSP Header Configuration**: Add Content-Security-Policy (CSP) headers to the `set_cache_headers` function in `main.py`. This mitigates XSS risks. Explicitly whitelist domains used by the frontend (cdn.plyr.io, unpkg.com, fonts.googleapis.com, fonts.gstatic.com).
+3. **Exception/Error Handling Safety**: Add a `safe_error` helper in `main.py` that masks raw exception messages in production (e.g. returns "Internal Server Error"), while continuing to log the full stack trace securely on the server. Update route exception catches (in endpoints like `/export-edit`, `/upload-music`, etc.) to use `safe_error(e, is_prod)`.
+4. **File Extension Validation**: Create an `allowed_file_extension` helper in `main.py`. Apply this helper to validate file types for `/` (video files), `/upload-music` (audio files), and `/upload-watermark` (image files). This prevents malicious or unexpected file uploads.
+5. **ID Validation Helper**: Implement `is_valid_id(identifier)` in `main.py` to validate chunk upload parameters like `upload_id` or `job_id` against a strict regex `r'^[\w-]+$'`. Apply this in chunking routes.
+6. **Pre commit step**: Complete pre-commit steps to ensure proper testing, verification, review, and reflection are done.
+7. **Submit the changes**: Once changes are verified, commit and push.
