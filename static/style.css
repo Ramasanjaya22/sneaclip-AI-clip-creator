@@ -321,7 +321,7 @@ input:focus,select:focus,textarea:focus{
   min-height:48px;
   border:none;
   border-radius:var(--radius-md);
-  background:linear-gradient(135deg,var(--color-accent),#9333ea);
+  background:linear-gradient(135deg,var(--color-accent),var(--color-brand-purple));
   color:#fff;
   font-size:.9rem;
   font-weight:var(--font-semibold);
@@ -501,7 +501,7 @@ input:focus,select:focus,textarea:focus{
 .select-wrap select:focus{outline:none;border-color:var(--color-accent)}
 .select-wrap::after{content:"\25BC";position:absolute;right:.6rem;top:50%;transform:translateY(-50%);font-size:.55rem;color:var(--color-text-muted);pointer-events:none}
 
-.btn-primary{background:linear-gradient(135deg,var(--color-accent),#9333ea);color:#fff;border:none;padding:.75rem 1.5rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
+.btn-primary{background:linear-gradient(135deg,var(--color-accent),var(--color-brand-purple));color:#fff;border:none;padding:.75rem 1.5rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-glow)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
@@ -509,6 +509,9 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
+.btn-lg{font-size:var(--text-base, 1rem);padding:0.8rem 1.8rem}
+.btn-hero-glow{box-shadow:var(--shadow-btn-hero)}
+.btn-hero-dim{opacity:0.9}
 
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
@@ -2221,7 +2224,7 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
-  font-size:clamp(2.6rem,5.5vw,5.4rem);
+  font-size:clamp(2.4rem,5vw,5rem);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
