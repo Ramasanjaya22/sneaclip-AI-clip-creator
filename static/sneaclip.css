@@ -82,8 +82,8 @@
    * ============================================ */
   --color-text-primary: #eff3ff;
   --color-text-secondary: #bcc6e3;
-  --color-text-muted: #8792b7;
-  --color-text-soft: #677396;
+  --color-text-muted: #9aa4c9;
+  --color-text-soft: #7a86ad;
   --color-text-inverse: #101423;
   --color-text-disabled: rgba(188, 198, 227, 0.4);
 
@@ -100,7 +100,7 @@
    * ============================================ */
   --gradient-brand: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 48%, var(--color-accent) 100%);
   --gradient-brand-soft: linear-gradient(180deg, rgba(223, 231, 255, 0.12) 0%, rgba(125, 120, 255, 0.08) 100%);
-  --shadow-glow: 0 0 24px rgba(125, 120, 255, 0.28);
+  --shadow-glow: 0 0 28px rgba(125, 120, 255, 0.32);
   --shadow-glow-lg: 0 0 44px rgba(238, 75, 147, 0.24);
   --focus-ring: 0 0 0 3px rgba(154, 144, 255, 0.18);
 
@@ -209,8 +209,8 @@
   /* ============================================
    * TRANSITIONS
    * ============================================ */
-  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-base: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
   --transition-spring: 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
