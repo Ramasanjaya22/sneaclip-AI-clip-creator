@@ -62,8 +62,8 @@
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
                     <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary btn-hero-primary" id="btn-hero-start">Upload a video</button>
+                        <button type="button" class="btn-secondary btn-hero-secondary" id="btn-hero-preview">See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -260,7 +260,7 @@
                 <span class="icon">&#128161;</span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
-                <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
+                <button class="btn-secondary btn-sm empty-state-btn" id="btn-adjust-settings">Open Settings</button>
             </div>
         </div>
         </div>
@@ -378,6 +378,9 @@
                             </div>
                         </button>
                         <div class="editor-empty-state" id="wm-empty-state">
+                            <div style="display:flex; justify-content:center; margin-bottom:var(--space-2); color:var(--color-text-soft);">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            </div>
                             <strong>No watermark set</strong>
                             <span>Enable the toggle to add brand text or an image overlay.</span>
                         </div>
@@ -436,6 +439,9 @@
                         </button>
                         <div class="editor-card-body">
                             <div class="editor-empty-state" id="music-empty-state">
+                                <div style="display:flex; justify-content:center; margin-bottom:var(--space-2); color:var(--color-text-soft);">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                                </div>
                                 <strong>No music yet</strong>
                                 <span>Upload or pick a track to blend with the source audio.</span>
                             </div>
