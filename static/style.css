@@ -201,7 +201,7 @@ input:focus,select:focus,textarea:focus{
 }
 .landing-hero h1{
   margin:0;
-  font-size:clamp(1.55rem,3.8vw,2.7rem);
+  font-size:var(--fluid-4xl);
   line-height:1.06;
   color:var(--color-text-primary)
 }
@@ -1207,10 +1207,10 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
  * ============================================ */
 
 /* ── Fluid Typography ── */
-.upload-area h2{font-size:clamp(1rem,2.5vw,1.15rem)}
-.results-toolbar-left h2{font-size:clamp(.85rem,2vw,1rem)}
-.editor-top h2{font-size:clamp(.85rem,2vw,.9rem)}
-.modal-header h3{font-size:clamp(.85rem,2vw,.95rem)}
+.upload-area h2{font-size:var(--fluid-lg)}
+.results-toolbar-left h2{font-size:var(--fluid-base)}
+.editor-top h2{font-size:var(--fluid-base)}
+.modal-header h3{font-size:var(--fluid-base)}
 
 /* ── Wide (1440px+) ── */
 @media(min-width:1440px){
@@ -1280,6 +1280,8 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .clip-list-thumb{width:80px;min-width:80px}
   .results-hint{flex-direction:column;align-items:flex-start}
 
+  .empty-state{padding:2rem 1rem}
+
   /* Editor page: stacked layout */
   .editor-body{flex-direction:column}
   .editor-clips{width:100%;min-width:0;max-height:180px;border-right:none;border-bottom:1px solid var(--color-border);flex-direction:row;overflow-x:auto}
@@ -1327,7 +1329,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .page-wrapper{padding:var(--space-2)}
   .upload-area{padding:var(--space-8) var(--space-3)}
   .coachmark{padding:var(--space-3)}
-  .landing-hero h1{font-size:clamp(1.28rem,8vw,1.58rem)}
+  .landing-hero h1{font-size:var(--fluid-3xl)}
   .landing-subcopy{font-size:.8rem}
   .landing-benefits li{font-size:.7rem}
   .landing-mockup--phone{width:104px}
@@ -1810,6 +1812,12 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   box-shadow:0 0 0 3px var(--color-primary-alpha)
 }
 
+.btn-cta{
+  font-size: 1rem;
+  padding: 0.8rem 1.8rem;
+  box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);
+}
+
 .btn-secondary{
   transition:transform 160ms var(--ease-out-quart),
              background 200ms ease,
@@ -2221,7 +2229,7 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
-  font-size:clamp(2.6rem,5.5vw,5.4rem);
+  font-size:var(--fluid-hero);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
@@ -2473,7 +2481,7 @@ a:focus-visible{
 
 @media(max-width:767px){
   .landing-title{
-    font-size:clamp(2.2rem,12vw,3.5rem);
+    font-size:var(--fluid-5xl);
     max-width:none;
   }
   .landing-actions{
