@@ -3,8 +3,9 @@ import os
 import subprocess
 
 import threading
+from models.ffmpeg_utils import get_ffmpeg_exe, get_ffprobe_exe
 
-FFMPEG_EXE = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+FFMPEG_EXE = get_ffmpeg_exe()
 
 _export_jobs = {}
 _job_counter = 0
@@ -32,13 +33,18 @@ def _run_ffmpeg(args, job_id=None):
     for line in proc.stdout:
         line = line.strip()
         if job_id:
-            if "Duration:" in line:
-                parts = line.split("Duration: ")[1].split(",")[0].strip().split(":")
-                duration = float(parts[0]) * 3600 + float(parts[1]) * 60 + float(parts[2])
-            if "time=" in line and duration:
-                t = line.split("time=")[1].split()[0].split(":")
-                current = float(t[0]) * 3600 + float(t[1]) * 60 + float(t[2])
-                _export_jobs[job_id]["progress"] = min(int((current / duration) * 100), 99)
+            try:
+                if "Duration:" in line and "N/A" not in line:
+                    parts = line.split("Duration: ")[1].split(",")[0].strip().split(":")
+                    duration = float(parts[0]) * 3600 + float(parts[1]) * 60 + float(parts[2])
+                if "time=" in line and duration:
+                    time_str = line.split("time=")[1].split()[0]
+                    if "N/A" not in time_str:
+                        t = time_str.split(":")
+                        current = float(t[0]) * 3600 + float(t[1]) * 60 + float(t[2])
+                        _export_jobs[job_id]["progress"] = min(int((current / duration) * 100), 99)
+            except (ValueError, IndexError):
+                pass
 
     proc.wait()
     return proc.returncode == 0
@@ -82,7 +88,7 @@ def _build_filter_complex(video_path, clips, editor_options):
             bg_target_h = target_h // 4
             filters.append(
                 f"{v_stream}split[fg_full][bg_full];"
-                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
+                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}:flags=fast_bilinear[bg];"
                 f"[fg_full]scale={target_w}:{target_h}:force_original_aspect_ratio=decrease[fg];"
                 f"[bg][fg]overlay=(W-w)/2:(H-h)/2:format=auto[vert_v]"
             )
@@ -182,6 +188,11 @@ def _build_filter_complex(video_path, clips, editor_options):
     elif a_stream and orig_vol < 1.0:
         filters.append(f"{a_stream}volume={orig_vol}[final_a]")
         a_stream = "[final_a]"
+    elif a_stream and (len(clips) > 1 or aspect == "9:16" or fade_in > 0 or fade_out > 0 or (wm_cfg.get("enabled") and wm_cfg.get("type") == "image")):
+        # If we have a complex video filtergraph but an unmodified audio stream, add a null audio filter
+        # to ensure the stream mapping matches properly without throwing 'Output with label does not exist'
+        filters.append(f"{a_stream}anull[final_a]")
+        a_stream = "[final_a]"
 
     filters.append(f"{v_stream}format=yuv420p[final_v]")
     v_stream = "[final_v]"
@@ -194,16 +205,18 @@ def _has_audio_stream(video_path):
     try:
         import subprocess
         r = subprocess.run(
-            [FFMPEG_EXE, "-hide_banner", "-i", video_path],
+            [get_ffprobe_exe(), "-v", "error", "-show_streams", "-select_streams", "a", video_path],
             capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         )
-        return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
+        return "codec_type=audio" in r.stdout
     except Exception:
         return True
 
 
-def export_video_ffmpeg(video_path, clips, editor_options, output_path):
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+def export_video_ffmpeg(video_path, clips, editor_options, output_path, job_id=None):
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     inputs, filters, v_stream, a_stream = _build_filter_complex(video_path, clips, editor_options)
     filter_str = ";".join(filters)
     has_audio = _has_audio_stream(video_path)
@@ -221,7 +234,7 @@ def export_video_ffmpeg(video_path, clips, editor_options, output_path):
     else:
         args += ["-an"]
     args += ["-shortest", output_path]
-    return _run_ffmpeg(args)
+    return _run_ffmpeg(args, job_id=job_id)
 
 
 def start_export_job(video_path, clips, editor_options, output_path):
@@ -237,7 +250,7 @@ def start_export_job(video_path, clips, editor_options, output_path):
 
     def _run():
         try:
-            ok = export_video_ffmpeg(video_path, clips, editor_options, output_path)
+            ok = export_video_ffmpeg(video_path, clips, editor_options, output_path, job_id=job_id)
             if ok and os.path.exists(output_path):
                 _export_jobs[job_id]["status"] = "done"
                 _export_jobs[job_id]["progress"] = 100
