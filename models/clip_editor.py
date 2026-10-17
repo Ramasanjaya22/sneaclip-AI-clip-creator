@@ -14,9 +14,9 @@ BLUR_RADIUS_DEFAULT = 12
 def _blur_frame_fast(frame, radius=BLUR_RADIUS_DEFAULT):
     img = Image.fromarray(frame)
     w, h = img.size
-    small = img.resize((max(1, w // 4), max(1, h // 4)), Image.LANCZOS)
+    small = img.resize((max(1, w // 4), max(1, h // 4)), Image.BILINEAR)
     blurred_small = small.filter(ImageFilter.GaussianBlur(radius=max(1, radius // 4)))
-    blurred = blurred_small.resize((w, h), Image.LANCZOS)
+    blurred = blurred_small.resize((w, h), Image.BILINEAR)
     return np.array(blurred)
 
 
@@ -292,6 +292,6 @@ VIDEO_WRITE_KWARGS = dict(
     audio_fps=None,
     logger=None,
     threads=os.cpu_count() or 4,
-    preset="fast",
+    preset="veryfast",
     ffmpeg_params=["-movflags", "+faststart"],
 )
