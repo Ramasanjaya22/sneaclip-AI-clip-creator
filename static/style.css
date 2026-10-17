@@ -73,7 +73,7 @@ input:focus,select:focus,textarea:focus{
   top:0;
   left:0;
   right:0;
-  height:56px;
+  height:64px;
   background:rgba(var(--color-bg-1-rgb, 19,19,31), 0.72);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
@@ -381,7 +381,7 @@ input:focus,select:focus,textarea:focus{
   inherits:false;
 }
 
-.upload-area:hover{border-color:var(--color-accent);background:var(--color-bg-2)}
+.upload-area:hover{border-color:var(--color-accent);background:var(--color-bg-2);box-shadow:var(--shadow-glow)}
 .upload-area.dragover{
   border-color:transparent;
   background:var(--color-bg-2);
@@ -1240,7 +1240,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 @media(max-width:767px){
   /* Topbar: hamburger menu */
   .topbar{padding:0 var(--space-3)}
-  .topbar-nav{display:none;position:fixed;top:56px;left:0;right:0;bottom:0;background:var(--color-bg-1);border-top:1px solid var(--color-border);flex-direction:column;padding:var(--space-4);gap:var(--space-2);z-index:var(--z-modal);animation:drawer-slide-in .25s var(--ease-out-quart)}
+  .topbar-nav{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--color-bg-1);border-top:1px solid var(--color-border);flex-direction:column;padding:var(--space-4);gap:var(--space-2);z-index:var(--z-modal);animation:drawer-slide-in .25s var(--ease-out-quart)}
   .topbar-nav.open{display:flex}
   .topbar-nav .nav-link{padding:var(--space-3) var(--space-4);font-size:1rem;border-radius:var(--radius-md);min-height:48px;display:flex;align-items:center}
   .hamburger{display:flex;flex-direction:column;gap:5px;width:44px;height:44px;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;padding:0;border-radius:var(--radius-sm);transition:background var(--transition-fast)}
@@ -1324,7 +1324,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 /* ── Small mobile (≤375px) ── */
 @media(max-width:375px){
   .topbar{padding:0 var(--space-2)}
-  .page-wrapper{padding:var(--space-2)}
+  .page-wrapper{padding:var(--space-4)}
   .upload-area{padding:var(--space-8) var(--space-3)}
   .coachmark{padding:var(--space-3)}
   .landing-hero h1{font-size:clamp(1.28rem,8vw,1.58rem)}
@@ -2221,8 +2221,9 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
+  margin-bottom:var(--space-3);
   font-size:clamp(2.6rem,5.5vw,5.4rem);
-  line-height:0.94;
+  line-height:1.1;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
 }
