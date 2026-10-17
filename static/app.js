@@ -877,11 +877,11 @@
       badge.classList.add("visible");
     }
     if (fileType === "music") {
-      icon.innerHTML = "&#9835;";
+      icon.innerHTML = "<svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M9 18V5l12-2v13M9 9l12-2M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
     } else if (fileType === "image") {
-      icon.innerHTML = "&#128247;";
+      icon.innerHTML = "<svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2v11zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
     } else {
-      icon.innerHTML = "&#128229;";
+      icon.innerHTML = "<svg width=\"32\" height=\"32\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
     }
     overlay.classList.add("active");
   }
