@@ -189,6 +189,18 @@ def find_clips(scores, sr, minimum_length, maximum_length, number_of_clips, leni
     return [(c["start"], c["end"], c.get("score", 0.0)) for c in selected]
 
 
+def _get_ffprobe_path():
+    import os
+    ffmpeg = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+    if not ffmpeg or ffmpeg == "ffmpeg":
+        return "ffprobe"
+
+    dir_name, file_name = os.path.split(ffmpeg)
+    base, ext = os.path.splitext(file_name)
+
+    return os.path.join(dir_name, "ffprobe" + ext)
+
+
 def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_clip_end, editor_options=None):
     import subprocess
     os.makedirs(output_dir, exist_ok=True)
@@ -197,7 +209,7 @@ def create_clips(video_file, clip_timestamps, output_dir, pad_clip_start, pad_cl
     # Get duration using ffprobe
     try:
         cmd_probe = [
-            "ffprobe", "-v", "error", "-show_entries",
+            _get_ffprobe_path(), "-v", "error", "-show_entries",
             "format=duration", "-of",
             "default=noprint_wrappers=1:nokey=1", video_file
         ]
