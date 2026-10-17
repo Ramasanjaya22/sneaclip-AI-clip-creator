@@ -501,7 +501,7 @@ input:focus,select:focus,textarea:focus{
 .select-wrap select:focus{outline:none;border-color:var(--color-accent)}
 .select-wrap::after{content:"\25BC";position:absolute;right:.6rem;top:50%;transform:translateY(-50%);font-size:.55rem;color:var(--color-text-muted);pointer-events:none}
 
-.btn-primary{background:linear-gradient(135deg,var(--color-accent),#9333ea);color:#fff;border:none;padding:.75rem 1.5rem;border-radius:var(--radius-sm);font-size:.85rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
+.btn-primary{background:linear-gradient(135deg,var(--color-accent),#9333ea);color:#fff;border:none;padding:var(--space-3) var(--space-5);border-radius:var(--radius-sm);font-size:var(--fluid-base);font-weight:600;font-family:inherit;cursor:pointer;transition:var(--transition-base)}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-glow)}
 .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
 
@@ -2217,6 +2217,9 @@ a:focus-visible{
   letter-spacing:var(--tracking-widest);
   text-transform:uppercase;
 }
+.landing-flow-step{
+  color:var(--color-accent);
+}
 .landing-kicker,
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
@@ -2278,6 +2281,10 @@ a:focus-visible{
   border:1px solid rgba(255,255,255,0.08);
   background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   box-shadow:var(--shadow-lg);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hero-floating-card:hover{
+  transform: translateY(-4px);
 }
 .hero-screen{
   position:relative;
@@ -2328,11 +2335,17 @@ a:focus-visible{
   width:100%;
   height:100%;
   object-fit:cover;
+  background-color:var(--color-bg-2);
+  min-height:200px;
+  color:transparent;
 }
 .hero-screen-preview img{
   height:100%;
   border-radius:var(--radius-lg);
   border:1px solid rgba(255,255,255,0.08);
+  background-color:var(--color-bg-2);
+  min-height:300px;
+  color:transparent;
 }
 .hero-screen-sidebar{
   display:grid;
@@ -2406,7 +2419,7 @@ a:focus-visible{
   margin-bottom:clamp(1.5rem,3vw,2.5rem);
 }
 .landing-flow-item{
-  padding:1rem 1.1rem;
+  padding:var(--space-4) var(--space-5);
   border-top:1px solid rgba(255,255,255,0.08);
   display:grid;
   gap:0.4rem;
