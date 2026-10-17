@@ -4,7 +4,7 @@ import subprocess
 
 import threading
 
-FFMPEG_EXE = os.environ.get("FFMPEG_BINARY", "ffmpeg")
+from models.ffmpeg_utils import get_ffmpeg_exe, get_ffprobe_exe
 
 _export_jobs = {}
 _job_counter = 0
@@ -19,7 +19,7 @@ def _get_job_id():
 
 
 def _run_ffmpeg(args, job_id=None):
-    cmd = [FFMPEG_EXE, "-y", "-hide_banner"] + args
+    cmd = [get_ffmpeg_exe(), "-y", "-hide_banner"] + args
     flags = subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
     proc = subprocess.Popen(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
@@ -82,7 +82,7 @@ def _build_filter_complex(video_path, clips, editor_options):
             bg_target_h = target_h // 4
             filters.append(
                 f"{v_stream}split[fg_full][bg_full];"
-                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}[bg];"
+                f"[bg_full]scale={bg_target_w}:{bg_target_h}:force_original_aspect_ratio=increase:flags=fast_bilinear,crop={bg_target_w}:{bg_target_h},boxblur=luma_radius=min(h\\,w)/18:luma_power=1,scale={target_w}:{target_h}:flags=fast_bilinear[bg];"
                 f"[fg_full]scale={target_w}:{target_h}:force_original_aspect_ratio=decrease[fg];"
                 f"[bg][fg]overlay=(W-w)/2:(H-h)/2:format=auto[vert_v]"
             )
@@ -193,11 +193,15 @@ def _build_filter_complex(video_path, clips, editor_options):
 def _has_audio_stream(video_path):
     try:
         import subprocess
+        cmd_probe = [
+            get_ffprobe_exe(), "-v", "error", "-show_streams",
+            "-select_streams", "a", "-of", "csv=p=0", video_path
+        ]
         r = subprocess.run(
-            [FFMPEG_EXE, "-hide_banner", "-i", video_path],
+            cmd_probe,
             capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0
         )
-        return "Stream #0:1" in r.stderr or "Audio:" in r.stderr
+        return len(r.stdout.strip()) > 0
     except Exception:
         return True
 
