@@ -202,7 +202,7 @@ def _has_audio_stream(video_path):
         return True
 
 
-def export_video_ffmpeg(video_path, clips, editor_options, output_path):
+def export_video_ffmpeg(video_path, clips, editor_options, output_path, job_id=None):
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     inputs, filters, v_stream, a_stream = _build_filter_complex(video_path, clips, editor_options)
     filter_str = ";".join(filters)
@@ -221,7 +221,7 @@ def export_video_ffmpeg(video_path, clips, editor_options, output_path):
     else:
         args += ["-an"]
     args += ["-shortest", output_path]
-    return _run_ffmpeg(args)
+    return _run_ffmpeg(args, job_id=job_id)
 
 
 def start_export_job(video_path, clips, editor_options, output_path):
@@ -237,7 +237,7 @@ def start_export_job(video_path, clips, editor_options, output_path):
 
     def _run():
         try:
-            ok = export_video_ffmpeg(video_path, clips, editor_options, output_path)
+            ok = export_video_ffmpeg(video_path, clips, editor_options, output_path, job_id=job_id)
             if ok and os.path.exists(output_path):
                 _export_jobs[job_id]["status"] = "done"
                 _export_jobs[job_id]["progress"] = 100
