@@ -42,7 +42,9 @@
             </a>
         </nav>
         <div class="topbar-right">
-            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings">&#9881;</button>
+            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
             <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
                 <span></span>
                 <span></span>
@@ -62,8 +64,8 @@
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
                     <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary" id="btn-hero-start">Upload a video</button>
+                        <button type="button" class="btn-secondary" id="btn-hero-preview">See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -162,7 +164,9 @@
                             <svg class="file-info__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="1" width="10" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 5h4M6 8h4M6 11h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
                             <span class="file-name" id="file-name"></span>
                             <span class="file-size" id="file-size"></span>
-                            <button type="button" class="file-remove" id="file-remove" title="Remove" aria-label="Remove selected file">&times;</button>
+                            <button type="button" class="file-remove" id="file-remove" title="Remove" aria-label="Remove selected file">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
                         </div>
                         <p class="formats">MP4, MOV, AVI, MKV up to 2GB</p>
                         <input type="file" name="video" accept="video/*" id="video-input">
@@ -203,14 +207,33 @@
                 <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
                 <div class="progress-steps" id="progress-steps"></div>
             </div>
+            {% if error %}
+            <div class="upload-error" id="upload-error" role="alert" style="display:flex">
+                <span class="error-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </span>
+                <div class="error-body">
+                    <h4 id="error-title">Error</h4>
+                    <p id="error-message">{{ error }}</p>
+                </div>
+                <button class="error-close" id="error-close" aria-label="Dismiss upload error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            {% else %}
             <div class="upload-error" id="upload-error" style="display:none" role="alert">
-                <span class="error-icon">&#9888;</span>
+                <span class="error-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </span>
                 <div class="error-body">
                     <h4 id="error-title">Upload failed</h4>
                     <p id="error-message">Something went wrong</p>
                 </div>
-                <button class="error-close" id="error-close" aria-label="Dismiss upload error">&times;</button>
+                <button class="error-close" id="error-close" aria-label="Dismiss upload error">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
+            {% endif %}
         </div>
         </div>
 
@@ -244,8 +267,12 @@
                         </select>
                     </div>
                     <div class="layout-toggle" id="layout-toggle" style="display:none">
-                        <button class="active" data-view="grid" title="Grid view">&#9783;</button>
-                        <button data-view="list" title="List view">&#9776;</button>
+                        <button class="active" data-view="grid" title="Grid view">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        </button>
+                        <button data-view="list" title="List view">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                        </button>
                     </div>
                     <button class="btn-secondary btn-sm" id="btn-new-analysis">New Analysis</button>
                     <button class="btn-primary btn-sm" id="btn-export-all">Export All</button>
@@ -257,7 +284,9 @@
             </div>
             <div id="clips-container"></div>
             <div class="empty-state" id="no-clips" style="display:none">
-                <span class="icon">&#128161;</span>
+                <span class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"></line><line x1="10" y1="22" x2="14" y2="22"></line><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1.5.5 2.8 1.5 3.5.76.76 1.23 1.52 1.41 2.5"></path></svg>
+                </span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
                 <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
@@ -508,7 +537,9 @@
                     <div class="export-inline-header">
                         <span class="export-inline-stage" id="export-inline-stage">Preparing...</span>
                         <span class="export-inline-percent" id="export-inline-percent">0%</span>
-                        <button class="export-inline-cancel" id="btn-cancel-export" title="Cancel" aria-label="Cancel export">&times;</button>
+                        <button class="export-inline-cancel" id="btn-cancel-export" title="Cancel" aria-label="Cancel export">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        </button>
                     </div>
                     <div class="progress-bar export-inline-bar"><div class="progress-fill" id="export-inline-fill"></div></div>
                     <div class="export-inline-footer">
@@ -526,7 +557,9 @@
         <div class="modal">
             <div class="modal-header">
                 <h3>Settings</h3>
-                <button class="modal-close" id="modal-close" aria-label="Close settings">&times;</button>
+                <button class="modal-close" id="modal-close" aria-label="Close settings">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="setting-group">
