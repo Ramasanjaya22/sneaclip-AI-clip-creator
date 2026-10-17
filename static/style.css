@@ -47,6 +47,9 @@ input:focus,select:focus,textarea:focus{
   border-color:var(--color-accent)
 }
 
+/* Base Elements */
+img { background-color: var(--color-bg-2); min-height: 1px; color: transparent; }
+
 /* Utility Classes */
 .visually-hidden{
   position:absolute;
@@ -180,9 +183,9 @@ input:focus,select:focus,textarea:focus{
   max-width:1120px;
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
-  gap:clamp(var(--space-4),3vw,var(--space-8));
+  gap:var(--fluid-gap-hero);
   align-items:center;
-  padding:clamp(var(--space-4),2.4vw,var(--space-6));
+  padding:var(--fluid-gap-hero);
   border:1px solid rgba(var(--color-accent-rgb),0.24);
   border-radius:var(--radius-xl);
   background:
@@ -201,7 +204,7 @@ input:focus,select:focus,textarea:focus{
 }
 .landing-hero h1{
   margin:0;
-  font-size:clamp(1.55rem,3.8vw,2.7rem);
+  font-size:var(--fluid-4xl);
   line-height:1.06;
   color:var(--color-text-primary)
 }
@@ -209,7 +212,7 @@ input:focus,select:focus,textarea:focus{
   margin:0;
   max-width:34ch;
   color:var(--color-text-secondary);
-  font-size:clamp(.88rem,1.5vw,1rem)
+  font-size:var(--fluid-base)
 }
 .landing-hero__actions{display:grid;gap:var(--space-3);justify-items:start}
 .landing-benefits{
@@ -509,6 +512,7 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
+.btn-hero{padding:1rem 2rem;font-size:1.05rem;box-shadow:0 4px 12px rgba(var(--color-accent-rgb), 0.3)}
 
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
@@ -1207,10 +1211,10 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
  * ============================================ */
 
 /* ── Fluid Typography ── */
-.upload-area h2{font-size:clamp(1rem,2.5vw,1.15rem)}
-.results-toolbar-left h2{font-size:clamp(.85rem,2vw,1rem)}
-.editor-top h2{font-size:clamp(.85rem,2vw,.9rem)}
-.modal-header h3{font-size:clamp(.85rem,2vw,.95rem)}
+.upload-area h2{font-size:var(--fluid-lg)}
+.results-toolbar-left h2{font-size:var(--fluid-base)}
+.editor-top h2{font-size:var(--fluid-base)}
+.modal-header h3{font-size:var(--fluid-base)}
 
 /* ── Wide (1440px+) ── */
 @media(min-width:1440px){
@@ -1327,7 +1331,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .page-wrapper{padding:var(--space-2)}
   .upload-area{padding:var(--space-8) var(--space-3)}
   .coachmark{padding:var(--space-3)}
-  .landing-hero h1{font-size:clamp(1.28rem,8vw,1.58rem)}
+  .landing-hero h1{font-size:var(--fluid-hero-small)}
   .landing-subcopy{font-size:.8rem}
   .landing-benefits li{font-size:.7rem}
   .landing-mockup--phone{width:104px}
@@ -2187,7 +2191,7 @@ a:focus-visible{
 
 /* ── Landing page layer: mockup-first upload experience ── */
 .upload-page{
-  padding:clamp(1rem,2vw,2rem) 0 var(--space-12);
+  padding:var(--fluid-pad-hero) 0 var(--space-12);
   min-height:auto;
   align-items:stretch;
   justify-content:flex-start;
@@ -2197,9 +2201,9 @@ a:focus-visible{
 .landing-hero{
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(320px,580px);
-  gap:clamp(2rem,4vw,4rem);
+  gap:var(--fluid-space-hero);
   align-items:center;
-  padding:clamp(1rem,2vw,1.5rem) 0 clamp(2rem,4vw,3rem);
+  padding:var(--fluid-pad-hero) 0 var(--fluid-space-hero);
 }
 .landing-copy{
   display:grid;
@@ -2221,7 +2225,7 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
-  font-size:clamp(2.6rem,5.5vw,5.4rem);
+  font-size:var(--fluid-hero);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
@@ -2229,7 +2233,7 @@ a:focus-visible{
 .landing-description{
   margin:0;
   max-width:34rem;
-  font-size:clamp(1rem,1.5vw,1.1rem);
+  font-size:var(--fluid-lg);
   line-height:var(--leading-relaxed);
   color:var(--color-text-secondary);
 }
@@ -2261,7 +2265,7 @@ a:focus-visible{
 .hero-stage{
   position:relative;
   min-height:34rem;
-  padding:clamp(1rem,2vw,1.5rem);
+  padding:var(--fluid-pad-hero);
 }
 .hero-stage::before{
   content:"";
@@ -2403,7 +2407,7 @@ a:focus-visible{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:var(--space-4);
-  margin-bottom:clamp(1.5rem,3vw,2.5rem);
+  margin-bottom:var(--fluid-space-hero);
 }
 .landing-flow-item{
   padding:1rem 1.1rem;
@@ -2422,7 +2426,7 @@ a:focus-visible{
 }
 
 .landing-upload{
-  padding:clamp(1.25rem,2vw,1.5rem);
+  padding:var(--fluid-pad-hero);
   border:1px solid rgba(255,255,255,0.08);
   border-radius:calc(var(--radius-xl) + 0.25rem);
   background:
@@ -2437,7 +2441,7 @@ a:focus-visible{
 }
 .landing-upload-header h2{
   margin:0;
-  font-size:clamp(1.25rem,2vw,1.75rem);
+  font-size:var(--fluid-2xl);
 }
 .landing-upload #upload-form{
   display:grid;
@@ -2473,7 +2477,7 @@ a:focus-visible{
 
 @media(max-width:767px){
   .landing-title{
-    font-size:clamp(2.2rem,12vw,3.5rem);
+    font-size:var(--fluid-hero-mobile);
     max-width:none;
   }
   .landing-actions{
