@@ -2241,7 +2241,14 @@ a:focus-visible{
 .landing-actions .btn-primary,
 .landing-actions .btn-secondary{
   min-height:48px;
-  padding-inline:1.25rem;
+  padding:0.8rem 1.8rem;
+  font-size:var(--fluid-base);
+}
+.landing-actions .btn-primary{
+  box-shadow:0 4px 12px rgba(238, 75, 147, 0.3);
+}
+.landing-actions .btn-secondary{
+  opacity:0.9;
 }
 .landing-chips{
   display:flex;
@@ -2328,6 +2335,8 @@ a:focus-visible{
   width:100%;
   height:100%;
   object-fit:cover;
+  background-color:var(--color-bg-2);
+  color:transparent;
 }
 .hero-screen-preview img{
   height:100%;
