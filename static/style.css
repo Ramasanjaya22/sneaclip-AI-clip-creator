@@ -510,7 +510,11 @@ input:focus,select:focus,textarea:focus{
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
 
-.progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
+.btn-lg{font-size:1rem;padding:0.8rem 1.8rem;min-height:56px}
+.btn-primary.btn-lg{box-shadow:0 4px 12px rgba(238,75,147,0.3)}
+.btn-dim{opacity:0.9}
+
+.progress-section{width:100%;max-width:640px;margin-top:2rem;display:none;background:var(--color-bg-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-sm)}
 .progress-section.active{display:block;animation:fade-in .4s ease}
 .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
 .progress-title{font-size:.8rem;font-weight:600;color:var(--color-text-secondary)}
@@ -1261,12 +1265,12 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
   .landing-mockup--front{right:2px;top:-6px}
   .landing-mockup--back{left:2px;bottom:-4px}
   .mockup-strip{grid-template-columns:1fr;gap:var(--space-2)}
-  .upload-area{max-width:100%;padding:var(--space-10) var(--space-4);margin-left:var(--space-2);margin-right:var(--space-2)}
+  .upload-area{max-width:100%;padding:var(--space-10) var(--space-4);margin-left:0;margin-right:0}
   .upload-options{flex-direction:column;width:100%;max-width:100%}
   .upload-options .select-wrap{width:100%}
   .upload-options .select-wrap select{width:100%}
   .upload-options .btn-primary{width:100%;padding:.75rem 1.5rem;min-height:48px}
-  .upload-error{max-width:100%;margin-left:var(--space-2);margin-right:var(--space-2)}
+  .upload-error{max-width:100%;margin-left:0;margin-right:0}
   .landing-mobile-cta{display:block}
 
   /* Results page: single column */
@@ -1318,7 +1322,7 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.15)}
 
   /* Prevent horizontal scroll */
   .page-wrapper{padding:var(--space-3) var(--space-3)}
-  .progress-section{max-width:100%;padding:0 var(--space-2)}
+  .progress-section{max-width:100%;padding:1rem;margin-left:0;margin-right:0}
 }
 
 /* ── Small mobile (≤375px) ── */
