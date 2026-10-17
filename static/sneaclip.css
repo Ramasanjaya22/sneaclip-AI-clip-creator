@@ -18,6 +18,7 @@
   --color-brand-claw-rgb: 238, 75, 147;
   --color-brand-claw-strong: #ff3f89;
   --color-brand-gem: #d8ac49;
+  --color-brand-purple: #9333ea;
 
   /* ============================================
    * COLOR PALETTE - FOUNDATION
@@ -154,6 +155,9 @@
   --fluid-xl: clamp(1.0625rem, 0.975rem + 0.5vw, 1.25rem);
   --fluid-2xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
   --fluid-3xl: clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem);
+  --fluid-4xl: clamp(1.55rem, 3.8vw, 2.7rem);
+  --fluid-5xl: clamp(2.5rem, 2rem + 3vw, 3.5rem);
+  --fluid-hero: clamp(2.6rem, 5.5vw, 5.4rem);
 
   /* ============================================
    * TYPOGRAPHY - LINE HEIGHTS
