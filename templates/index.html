@@ -15,8 +15,8 @@
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"></noscript>
     <link rel="preload" as="style" href="https://cdn.plyr.io/3.7.8/plyr.css" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"></noscript>
-    <link rel="preload" as="style" href="../static/style.css" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="../static/style.css"></noscript>
+    <link rel="preload" as="style" href="/static/style.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/static/style.css"></noscript>
     {% include "_critical_css.html" %}
 </head>
 <body>
@@ -24,7 +24,7 @@
     <div class="topbar">
 <div class="topbar-left">
             <a href="#" class="logo" aria-label="Sneaclip home">
-                <img class="logo-image" src="../static/assets/sneaclip-logo.png" alt="Sneaclip">
+                <img class="logo-image" src="/static/assets/sneaclip-logo.png" alt="Sneaclip">
             </a>
         </div>
         <nav class="topbar-nav" id="mobile-nav" aria-label="Main navigation">
@@ -62,8 +62,8 @@
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
                     <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary" id="btn-hero-start" >Upload a video</button>
+                        <button type="button" class="btn-secondary" id="btn-hero-preview" >See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="hero-screen-body">
                                 <div class="hero-screen-preview">
-                                    <img src="../static/previews/preview_121319.png" alt="Sneaclip preview mockup">
+                                    <img src="/static/previews/preview_121319.png" alt="Sneaclip preview mockup">
                                 </div>
                                 <div class="hero-screen-sidebar">
                                     <div class="hero-mini-card">
@@ -104,14 +104,14 @@
                             </div>
                         </article>
                         <article class="hero-floating-card hero-floating-card--clip">
-                            <video src="../static/clips/2026-04-24/0.mp4" autoplay muted loop playsinline preload="metadata"></video>
+                            <video src="/static/clips/2026-04-24/0.mp4" autoplay muted loop playsinline preload="metadata"></video>
                             <div class="hero-floating-meta">
                                 <span>Best moment</span>
                                 <strong>00:18 · Hook locked</strong>
                             </div>
                         </article>
                         <article class="hero-floating-card hero-floating-card--stack">
-                            <img src="../static/previews/preview_121135.png" alt="Clip stack mockup">
+                            <img src="/static/previews/preview_121135.png" alt="Clip stack mockup">
                             <div class="hero-floating-meta">
                                 <span>Preview stack</span>
                                 <strong>Review before export</strong>
@@ -260,7 +260,7 @@
                 <span class="icon">&#128161;</span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
-                <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
+                <button class="btn-secondary btn-sm mt-3" id="btn-adjust-settings">Open Settings</button>
             </div>
         </div>
         </div>
@@ -319,7 +319,7 @@
                             <video id="editor-video" controls playsinline>
                                 <source src="" type="video/mp4">
                             </video>
-                            <img id="preview-image" src="" alt="Preview" style="display:none;max-width:100%;border-radius:var(--radius-lg);">
+                            <img id="preview-image" src="" alt="Preview" style="display:none;" class="editor-preview-image">
                         </div>
                     </div>
                     <div class="editor-timeline">
@@ -531,47 +531,47 @@
             <div class="modal-body">
                 <div class="setting-group">
                     <span class="setting-label">Processing</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Use GPU acceleration</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 flex-1">Use GPU acceleration</span>
                         <button class="toggle" id="toggle-gpu" data-key="use_gpu"></button>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Auto-load model on start</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 flex-1">Auto-load model on start</span>
                         <button class="toggle" id="toggle-auto-load" data-key="auto_load_model"></button>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Clip Detection</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Min length</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Min length</span>
                         <input type="range" id="setting-min-length" min="1" max="60" value="{{ config.minimum_clip_length }}">
                         <span class="setting-value" id="val-min-length">{{ config.minimum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Max length</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Max length</span>
                         <input type="range" id="setting-max-length" min="5" max="180" value="{{ config.maximum_clip_length }}">
                         <span class="setting-value" id="val-max-length">{{ config.maximum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Clips count</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Clips count</span>
                         <input type="range" id="setting-num-clips" min="1" max="20" value="{{ config.number_of_clips }}">
                         <span class="setting-value" id="val-num-clips">{{ config.number_of_clips }}</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Threshold</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Threshold</span>
                         <input type="range" id="setting-threshold" min="0" max="100" step="1" value="{{ (config.threshold * 100)|int }}">
                         <span class="setting-value" id="val-threshold">{{ (config.threshold * 100)|int }}%</span>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Padding</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Start pad</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Start pad</span>
                         <input type="range" id="setting-pad-start" min="0" max="5" step="0.5" value="{{ config.pad_clip_start }}">
                         <span class="setting-value" id="val-pad-start">{{ config.pad_clip_start }}s</span>
                     </div>
                     <div class="setting-row">
-                        <span class="setting-label" style="margin:0;min-width:100px">End pad</span>
+                        <span class="setting-label m-0 min-w-100">End pad</span>
                         <input type="range" id="setting-pad-end" min="0" max="5" step="0.5" value="{{ config.pad_clip_end }}">
                         <span class="setting-value" id="val-pad-end">{{ config.pad_clip_end }}s</span>
                     </div>
