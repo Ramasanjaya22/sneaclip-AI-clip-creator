@@ -48,6 +48,12 @@ input:focus,select:focus,textarea:focus{
 }
 
 /* Utility Classes */
+img {
+  color: transparent;
+  background-color: var(--color-bg-2);
+  min-height: 100px;
+}
+
 .visually-hidden{
   position:absolute;
   width:1px;
@@ -509,6 +515,8 @@ input:focus,select:focus,textarea:focus{
 .btn-secondary:hover{background:var(--color-bg-2);border-color:var(--color-accent)}
 
 .btn-sm{padding:.4rem .85rem;font-size:.78rem;min-height:44px}
+.btn-lg{padding:0.8rem 1.8rem;font-size:1rem;min-height:56px}
+.btn-glow{box-shadow:0 4px 12px rgba(238,75,147,0.3)}
 
 .progress-section{width:100%;max-width:640px;margin-top:2rem;display:none}
 .progress-section.active{display:block;animation:fade-in .4s ease}
@@ -2221,7 +2229,7 @@ a:focus-visible{
 .landing-upload-eyebrow{color:var(--color-accent-light)}
 .landing-title{
   margin:0;
-  font-size:clamp(2.6rem,5.5vw,5.4rem);
+  font-size:var(--fluid-hero);
   line-height:0.94;
   letter-spacing:var(--tracking-tight);
   max-width:10ch;
@@ -2229,7 +2237,7 @@ a:focus-visible{
 .landing-description{
   margin:0;
   max-width:34rem;
-  font-size:clamp(1rem,1.5vw,1.1rem);
+  font-size:var(--fluid-lg);
   line-height:var(--leading-relaxed);
   color:var(--color-text-secondary);
 }
@@ -2473,7 +2481,7 @@ a:focus-visible{
 
 @media(max-width:767px){
   .landing-title{
-    font-size:clamp(2.2rem,12vw,3.5rem);
+    font-size:var(--fluid-4xl);
     max-width:none;
   }
   .landing-actions{
