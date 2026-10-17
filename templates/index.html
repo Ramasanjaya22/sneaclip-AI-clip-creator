@@ -62,8 +62,8 @@
                     <h1 class="landing-title" id="landing-title">Turn long footage into clip-ready cuts.</h1>
                     <p class="landing-description">Upload once, let Sneaclip detect the strongest beats, then trim and export without a long edit pass.</p>
                     <div class="landing-actions">
-                        <button type="button" class="btn-primary" id="btn-hero-start" style="font-size: 1rem; padding: 0.8rem 1.8rem; box-shadow: 0 4px 12px rgba(238, 75, 147, 0.3);">Upload a video</button>
-                        <button type="button" class="btn-secondary" id="btn-hero-preview" style="opacity: 0.9;">See the flow</button>
+                        <button type="button" class="btn-primary" id="btn-hero-start">Upload a video</button>
+                        <button type="button" class="btn-secondary" id="btn-hero-preview">See the flow</button>
                     </div>
                     <div class="landing-chips" aria-label="Product highlights">
                         <span>Auto detect</span>
@@ -260,7 +260,7 @@
                 <span class="icon">&#128161;</span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
-                <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
+                <button class="btn-secondary btn-sm" id="btn-adjust-settings">Open Settings</button>
             </div>
         </div>
         </div>
@@ -531,47 +531,47 @@
             <div class="modal-body">
                 <div class="setting-group">
                     <span class="setting-label">Processing</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Use GPU acceleration</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Use GPU acceleration</span>
                         <button class="toggle" id="toggle-gpu" data-key="use_gpu"></button>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Auto-load model on start</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Auto-load model on start</span>
                         <button class="toggle" id="toggle-auto-load" data-key="auto_load_model"></button>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Clip Detection</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Min length</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Min length</span>
                         <input type="range" id="setting-min-length" min="1" max="60" value="{{ config.minimum_clip_length }}">
                         <span class="setting-value" id="val-min-length">{{ config.minimum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Max length</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Max length</span>
                         <input type="range" id="setting-max-length" min="5" max="180" value="{{ config.maximum_clip_length }}">
                         <span class="setting-value" id="val-max-length">{{ config.maximum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Clips count</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Clips count</span>
                         <input type="range" id="setting-num-clips" min="1" max="20" value="{{ config.number_of_clips }}">
                         <span class="setting-value" id="val-num-clips">{{ config.number_of_clips }}</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Threshold</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Threshold</span>
                         <input type="range" id="setting-threshold" min="0" max="100" step="1" value="{{ (config.threshold * 100)|int }}">
                         <span class="setting-value" id="val-threshold">{{ (config.threshold * 100)|int }}%</span>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Padding</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Start pad</span>
+                    <div class="setting-row">
+                        <span class="setting-label">Start pad</span>
                         <input type="range" id="setting-pad-start" min="0" max="5" step="0.5" value="{{ config.pad_clip_start }}">
                         <span class="setting-value" id="val-pad-start">{{ config.pad_clip_start }}s</span>
                     </div>
                     <div class="setting-row">
-                        <span class="setting-label" style="margin:0;min-width:100px">End pad</span>
+                        <span class="setting-label">End pad</span>
                         <input type="range" id="setting-pad-end" min="0" max="5" step="0.5" value="{{ config.pad_clip_end }}">
                         <span class="setting-value" id="val-pad-end">{{ config.pad_clip_end }}s</span>
                     </div>
@@ -587,7 +587,7 @@
     <div id="app-config" style="display:none"
       data-use-gpu="{{ 'true' if config.use_gpu else 'false' }}"
       data-auto-load="{{ 'true' if config.auto_load_model else 'false' }}"
-    ></div>
+ ></div>
 
     {% if editor_data %}
     <script id="editor-data" type="application/json">{{ editor_data | tojson }}</script>
