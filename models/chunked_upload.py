@@ -1,6 +1,7 @@
 import os
 import json
 import time
+import werkzeug.utils
 
 from models.job_store import (
     init_db, create_job, update_job, get_job, add_chunk, 
@@ -12,6 +13,7 @@ MAX_FILE_SIZE = 10 * 1024 * 1024 * 1024
 
 
 def init_upload(upload_id, filename, file_size, metadata=None):
+    upload_id = werkzeug.utils.secure_filename(upload_id)
     os.makedirs(CHUNK_DIR, exist_ok=True)
     
     upload_metadata = {
@@ -30,6 +32,7 @@ def init_upload(upload_id, filename, file_size, metadata=None):
 
 
 def receive_chunk(upload_id, chunk_index, chunk_data):
+    upload_id = werkzeug.utils.secure_filename(upload_id)
     job = get_job(upload_id)
     if not job:
         raise ValueError(f"Upload {upload_id} not found")
@@ -67,6 +70,7 @@ def receive_chunk(upload_id, chunk_index, chunk_data):
 
 
 def finalize_upload(upload_id):
+    upload_id = werkzeug.utils.secure_filename(upload_id)
     job = get_job(upload_id)
     if not job:
         raise ValueError(f"Upload {upload_id} not found")
@@ -109,6 +113,7 @@ def finalize_upload(upload_id):
 
 
 def get_upload_status(upload_id):
+    upload_id = werkzeug.utils.secure_filename(upload_id)
     return get_job(upload_id)
 
 
