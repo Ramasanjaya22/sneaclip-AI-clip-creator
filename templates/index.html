@@ -42,7 +42,9 @@
             </a>
         </nav>
         <div class="topbar-right">
-            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings">&#9881;</button>
+            <button class="btn-icon" id="btn-settings" title="Settings" aria-label="Open settings">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
             <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
                 <span></span>
                 <span></span>
@@ -204,7 +206,9 @@
                 <div class="progress-steps" id="progress-steps"></div>
             </div>
             <div class="upload-error" id="upload-error" style="display:none" role="alert">
-                <span class="error-icon">&#9888;</span>
+                <span class="error-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
+                </span>
                 <div class="error-body">
                     <h4 id="error-title">Upload failed</h4>
                     <p id="error-message">Something went wrong</p>
@@ -244,8 +248,12 @@
                         </select>
                     </div>
                     <div class="layout-toggle" id="layout-toggle" style="display:none">
-                        <button class="active" data-view="grid" title="Grid view">&#9783;</button>
-                        <button data-view="list" title="List view">&#9776;</button>
+                        <button class="active" data-view="grid" title="Grid view" style="display:inline-flex;align-items:center;justify-content:center;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                        </button>
+                        <button data-view="list" title="List view" style="display:inline-flex;align-items:center;justify-content:center;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>
+                        </button>
                     </div>
                     <button class="btn-secondary btn-sm" id="btn-new-analysis">New Analysis</button>
                     <button class="btn-primary btn-sm" id="btn-export-all">Export All</button>
@@ -257,7 +265,9 @@
             </div>
             <div id="clips-container"></div>
             <div class="empty-state" id="no-clips" style="display:none">
-                <span class="icon">&#128161;</span>
+                <span class="icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>
+                </span>
                 <h3>No clips found</h3>
                 <p>Try lowering the threshold, increasing max clip length, or using a different video.</p>
                 <button class="btn-secondary btn-sm" id="btn-adjust-settings" style="margin-top:.75rem">Open Settings</button>
@@ -531,47 +541,47 @@
             <div class="modal-body">
                 <div class="setting-group">
                     <span class="setting-label">Processing</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Use GPU acceleration</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 flex-1">Use GPU acceleration</span>
                         <button class="toggle" id="toggle-gpu" data-key="use_gpu"></button>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;flex:1">Auto-load model on start</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 flex-1">Auto-load model on start</span>
                         <button class="toggle" id="toggle-auto-load" data-key="auto_load_model"></button>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Clip Detection</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Min length</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Min length</span>
                         <input type="range" id="setting-min-length" min="1" max="60" value="{{ config.minimum_clip_length }}">
                         <span class="setting-value" id="val-min-length">{{ config.minimum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Max length</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Max length</span>
                         <input type="range" id="setting-max-length" min="5" max="180" value="{{ config.maximum_clip_length }}">
                         <span class="setting-value" id="val-max-length">{{ config.maximum_clip_length }}s</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Clips count</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Clips count</span>
                         <input type="range" id="setting-num-clips" min="1" max="20" value="{{ config.number_of_clips }}">
                         <span class="setting-value" id="val-num-clips">{{ config.number_of_clips }}</span>
                     </div>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Threshold</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Threshold</span>
                         <input type="range" id="setting-threshold" min="0" max="100" step="1" value="{{ (config.threshold * 100)|int }}">
                         <span class="setting-value" id="val-threshold">{{ (config.threshold * 100)|int }}%</span>
                     </div>
                 </div>
                 <div class="setting-group">
                     <span class="setting-label">Padding</span>
-                    <div class="setting-row" style="margin-bottom:.75rem">
-                        <span class="setting-label" style="margin:0;min-width:100px">Start pad</span>
+                    <div class="setting-row mb-3">
+                        <span class="setting-label m-0 min-w-100">Start pad</span>
                         <input type="range" id="setting-pad-start" min="0" max="5" step="0.5" value="{{ config.pad_clip_start }}">
                         <span class="setting-value" id="val-pad-start">{{ config.pad_clip_start }}s</span>
                     </div>
                     <div class="setting-row">
-                        <span class="setting-label" style="margin:0;min-width:100px">End pad</span>
+                        <span class="setting-label m-0 min-w-100">End pad</span>
                         <input type="range" id="setting-pad-end" min="0" max="5" step="0.5" value="{{ config.pad_clip_end }}">
                         <span class="setting-value" id="val-pad-end">{{ config.pad_clip_end }}s</span>
                     </div>
