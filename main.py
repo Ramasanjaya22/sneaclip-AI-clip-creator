@@ -228,6 +228,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     MAX_CONTENT_LENGTH=10240 * 1024 * 1024 # 10GB max length to match config
 )
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", os.urandom(24))
 
 # ── Performance: Gzip compression middleware ──────────────────────────
 # Compresses text/html, application/json, text/css, application/javascript
@@ -341,6 +342,8 @@ def set_cache_headers(response):
     response.headers["X-Frame-Options"] = "SAMEORIGIN"
     response.headers["X-XSS-Protection"] = "1; mode=block"
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.plyr.io https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.plyr.io; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self';"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
 
     return response
 
@@ -378,6 +381,9 @@ def main():
             try:
                 video = request.files["video"]
                 if video:
+                    if not allowed_file_extension(video.filename, ALLOWED_EXTENSIONS_VIDEO):
+                        return jsonify({"error": "Invalid video file extension"}), 400
+
                     print("Processing video...")
 
                     filename = secure_filename(video.filename)
@@ -498,6 +504,17 @@ def save_config():
     return jsonify({"status": "success", "message": "Settings succesfully updated"})
 
 
+ALLOWED_EXTENSIONS_VIDEO = {'.mp4', '.mov', '.avi', '.mkv', '.webm'}
+ALLOWED_EXTENSIONS_MUSIC = {'.mp3', '.wav', '.m4a', '.ogg', '.flac'}
+ALLOWED_EXTENSIONS_IMAGE = {'.png', '.jpg', '.jpeg', '.webp'}
+
+def allowed_file_extension(filename, allowed_extensions):
+    if '.' not in filename:
+        return False
+    ext = os.path.splitext(filename)[1].lower()
+    return ext in allowed_extensions
+
+
 def _resolve_static_path(url_path):
     if not url_path:
         return ""
@@ -604,6 +621,8 @@ def upload_music():
         file = request.files["music"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_MUSIC):
+            return jsonify({"success": False, "error": "Invalid music file extension"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(music_folder, filename)
         file.save(save_path)
@@ -653,6 +672,8 @@ def upload_watermark():
         file = request.files["watermark"]
         if not file or file.filename == "":
             return jsonify({"success": False, "error": "Empty file"}), 400
+        if not allowed_file_extension(file.filename, ALLOWED_EXTENSIONS_IMAGE):
+            return jsonify({"success": False, "error": "Invalid image file extension"}), 400
         filename = secure_filename(file.filename)
         save_path = os.path.join(watermark_folder, filename)
         file.save(save_path)
